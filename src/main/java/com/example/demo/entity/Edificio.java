@@ -1,5 +1,7 @@
 package com.example.demo.entity;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -8,11 +10,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "edificios")
@@ -29,6 +34,10 @@ public class Edificio {
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "sede_id")
 	private Sede sede;
+	
+	@OneToMany(mappedBy = "edificio", cascade = CascadeType.REMOVE, orphanRemoval = true)
+	@JsonIgnoreProperties(ignoreUnknown = true, value = {"edificio"})
+	private List<Salon> salones;
 
 	public Long getId() {
 		return id;

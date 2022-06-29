@@ -1,14 +1,21 @@
 package com.example.demo.entity;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "sedes")
@@ -24,6 +31,10 @@ public class Sede {
 	@NotBlank(message = "El campo direccion no debe ir vacio")
 	@Size(min = 1, max = 255, message ="El campo direccion debe tener entre 1 y 255 caracteres")
 	private String direccion;
+	
+	@OneToMany(mappedBy = "sede", cascade = CascadeType.REMOVE, orphanRemoval = true)
+	@JsonIgnoreProperties(ignoreUnknown = true, value = {"sede"})
+	private List<Edificio> edificios;
 
 	public Long getId() {
 		return id;

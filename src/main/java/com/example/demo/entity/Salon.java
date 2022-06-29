@@ -1,5 +1,7 @@
 package com.example.demo.entity;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -8,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -36,6 +39,10 @@ public class Salon {
 	@JoinColumn(name = "edificio_id")
 	@JsonIgnoreProperties(ignoreUnknown = true, value = {"sede"})
 	private Edificio edificio;
+	
+	@OneToMany(mappedBy = "salon", cascade = CascadeType.REMOVE, orphanRemoval = true)
+	@JsonIgnoreProperties(ignoreUnknown = true, value = {"salon"})
+	private List<Clase> clases;
 
 	public Long getId() {
 		return id;
