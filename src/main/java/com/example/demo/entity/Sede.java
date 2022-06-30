@@ -19,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "sedes")
+@JsonIgnoreProperties(ignoreUnknown = true, value = {"edificios"})
 public class Sede {
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,7 +33,7 @@ public class Sede {
 	@Size(min = 1, max = 255, message ="El campo direccion debe tener entre 1 y 255 caracteres")
 	private String direccion;
 	
-	@OneToMany(mappedBy = "sede", cascade = CascadeType.REMOVE, orphanRemoval = true)
+	@OneToMany(mappedBy = "sede", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
 	@JsonIgnoreProperties(ignoreUnknown = true, value = {"sede"})
 	private List<Edificio> edificios;
 
@@ -58,6 +59,14 @@ public class Sede {
 
 	public void setDireccion(String direccion) {
 		this.direccion = direccion;
+	}
+
+	public List<Edificio> getEdificios() {
+		return edificios;
+	}
+
+	public void setEdificios(List<Edificio> edificios) {
+		this.edificios = edificios;
 	}
 	
 	

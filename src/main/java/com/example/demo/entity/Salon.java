@@ -21,8 +21,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "salones")
-@JsonIgnoreProperties(ignoreUnknown = true, value = 
-{"hibernateLazyInitializer", "handler", "fieldHandler"})
+@JsonIgnoreProperties(ignoreUnknown = true, value = {"clases"})
 public class Salon {
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,7 +39,7 @@ public class Salon {
 	@JsonIgnoreProperties(ignoreUnknown = true, value = {"sede"})
 	private Edificio edificio;
 	
-	@OneToMany(mappedBy = "salon", cascade = CascadeType.REMOVE, orphanRemoval = true)
+	@OneToMany(mappedBy = "salon", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
 	@JsonIgnoreProperties(ignoreUnknown = true, value = {"salon"})
 	private List<Clase> clases;
 
@@ -74,6 +73,14 @@ public class Salon {
 
 	public void setEdificio(Edificio edificio) {
 		this.edificio = edificio;
+	}
+
+	public List<Clase> getClases() {
+		return clases;
+	}
+
+	public void setClases(List<Clase> clases) {
+		this.clases = clases;
 	}
 	
 	

@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "edificios")
+@JsonIgnoreProperties(ignoreUnknown = true, value = {"salones"})
 public class Edificio {
 	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,7 +36,7 @@ public class Edificio {
 	@JoinColumn(name = "sede_id")
 	private Sede sede;
 	
-	@OneToMany(mappedBy = "edificio", cascade = CascadeType.REMOVE, orphanRemoval = true)
+	@OneToMany(mappedBy = "edificio", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
 	@JsonIgnoreProperties(ignoreUnknown = true, value = {"edificio"})
 	private List<Salon> salones;
 
@@ -61,6 +62,14 @@ public class Edificio {
 
 	public void setSede(Sede sede) {
 		this.sede = sede;
+	}
+
+	public List<Salon> getSalones() {
+		return salones;
+	}
+
+	public void setSalones(List<Salon> salones) {
+		this.salones = salones;
 	}
 	
 	
