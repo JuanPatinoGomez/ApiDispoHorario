@@ -16,4 +16,6 @@ public interface IClaseService {
 	
 	public Clase save(Clase clase);
 
+	public List<Clase> findBySalon(Long idSalon);
+
 }

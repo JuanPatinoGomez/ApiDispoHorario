@@ -50,4 +50,10 @@ public class ClaseServiceImpl implements IClaseService{
 		return claseDao.save(clase);
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public List<Clase> findBySalon(Long idSalon) {
+		return claseDao.findBySalon(salonDao.findById(idSalon).orElse(null));
+	}
+
 }

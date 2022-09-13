@@ -50,4 +50,11 @@ public class EdificioServiceImpl implements IEdificioService{
 		return edificioDao.save(edificio);
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public List<Edificio> findAllBySede(Long idSede) {
+
+		return edificioDao.findAllBySede(sedeDao.findById(idSede).orElse(null));
+	}
+
 }
