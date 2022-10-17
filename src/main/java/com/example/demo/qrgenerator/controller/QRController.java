@@ -5,13 +5,13 @@ import com.google.zxing.WriterException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
+@CrossOrigin(origins = { "http://localhost:4200"})
 @RestController()
 @RequestMapping("/qr")
 public class QRController {
@@ -20,47 +20,59 @@ public class QRController {
     private IQRService qrService;
 
     @GetMapping("/app")
-    public ResponseEntity<String> generarCodigoQRApp(){
+    public ResponseEntity<Map<String, String>> generarCodigoQRApp(){
+        Map<String, String> response = new HashMap<>();
         try {
             qrService.qrApp("/aplicacion");
-            return new ResponseEntity<>("Ok", HttpStatus.OK);
+            response.put("mensaje","Se generaron las imagenes con los códigos qr de manera correcta");
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (WriterException | IOException e) {
             //throw new RuntimeException(e);
-            return new ResponseEntity<>("No se pudo generar la imagen del codigo qr", HttpStatus.INTERNAL_SERVER_ERROR);
+            response.put("mensaje","No se pudo generar las imagenes de los códigos qr");
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }
 
     @GetMapping("/salon/{id}")
-    public ResponseEntity<String> generarCodigoQRSalon(@PathVariable Long id){
+    public ResponseEntity<Map<String, String>> generarCodigoQRSalon(@PathVariable Long id){
+        Map<String, String> response = new HashMap<>();
         try {
             qrService.salonQr(id);
-            return new ResponseEntity<>("Ok", HttpStatus.OK);
+            response.put("mensaje","Se genero la imagen con el código qr de manera correcta");
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (WriterException | IOException e) {
             //throw new RuntimeException(e);
-            return new ResponseEntity<>("No se pudo generar la imagen del codigo qr", HttpStatus.INTERNAL_SERVER_ERROR);
+            response.put("mensaje","No se pudo generar las imagenes de los códigos qr");
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/edificio/{id}")
-    public ResponseEntity<String> generarCodigoQREdificio(@PathVariable Long id){
+    public ResponseEntity<Map<String, String>> generarCodigoQREdificio(@PathVariable Long id){
+        Map<String, String> response = new HashMap<>();
         try {
             qrService.edificioQrs(id);
-            return new ResponseEntity<>("Ok", HttpStatus.OK);
+            response.put("mensaje","Se generaron las imagenes con los códigos qr de manera correcta");
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (WriterException | IOException e) {
             //throw new RuntimeException(e);
-            return new ResponseEntity<>("No se pudo generar las imagenes de los codigos qr", HttpStatus.INTERNAL_SERVER_ERROR);
+            response.put("mensaje","No se pudo generar las imagenes de los códigos qr");
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/sede/{id}")
-    public ResponseEntity<String> generarCodigoQRSede(@PathVariable Long id){
+    public ResponseEntity<Map<String, String>> generarCodigoQRSede(@PathVariable Long id){
+        Map<String, String> response = new HashMap<>();
         try {
             qrService.sedeQrs(id);
-            return new ResponseEntity<>("Ok", HttpStatus.OK);
+            response.put("mensaje","Se generaron las imagenes con los códigos qr de manera correcta");
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (WriterException | IOException e) {
             //throw new RuntimeException(e);
-            return new ResponseEntity<>("No se pudo generar las imagenes de los codigos qr", HttpStatus.INTERNAL_SERVER_ERROR);
+            response.put("mensaje","No se pudo generar las imagenes de los códigos qr");
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

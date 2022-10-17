@@ -18,4 +18,6 @@ public interface IClaseService {
 
 	public List<Clase> findBySalon(Long idSalon);
 
+	List<String> horasPorDia(Long idSalon, String dia);
+
 }
