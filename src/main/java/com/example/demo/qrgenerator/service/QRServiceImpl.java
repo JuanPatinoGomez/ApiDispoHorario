@@ -27,7 +27,8 @@ public class QRServiceImpl implements IQRService{
     @Autowired
     private ISalonDao salonDao;
     @Override
-    public void qrApp(String path) throws WriterException, IOException {
+    public void qrApp(String urlApp) throws WriterException, IOException {
+        QRCodeGenerator.generateQRCodeImage(urlApp, 200, 200, "C:\\Universidad\\Trabajo_grado\\qr\\prueba-generarqr\\qr.png");
         //QRCodeGenerator.generateQRCodeImage(urlApp + path, 200, 200, "C:\\Universidad\\Trabajo_grado\\qr\\prueba-generarqr\\qr.png");
         //return QRCodeGenerator.getQRCodeImage(path, 200, 200);
         //QRCodeGenerator.generateQRCodeImage(urlApp, 200,200, path);

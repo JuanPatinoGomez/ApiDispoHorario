@@ -23,7 +23,8 @@ public class QRController {
     public ResponseEntity<Map<String, String>> generarCodigoQRApp(){
         Map<String, String> response = new HashMap<>();
         try {
-            qrService.qrApp("/aplicacion");
+            //qrService.qrApp("/aplicacion");
+            qrService.qrApp("http://localhost:4200/");
             response.put("mensaje","Se generaron las imagenes con los códigos qr de manera correcta");
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (WriterException | IOException e) {

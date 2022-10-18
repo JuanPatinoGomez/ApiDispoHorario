@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,6 +48,10 @@ public class ClaseServiceImpl implements IClaseService{
 		
 		Salon salon = salonDao.findById(clase.getSalon().getId()).orElse(null);
 
+		LocalTime horaFinalizacion = clase.getHoraInicio().plusHours(1);
+		horaFinalizacion = horaFinalizacion.plusMinutes(30);
+
+		clase.setHoraFinalizacion(horaFinalizacion);
 		clase.setSalon(salon);
 		
 		return claseDao.save(clase);
