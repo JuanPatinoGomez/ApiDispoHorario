@@ -18,4 +18,6 @@ public interface IClaseDao extends JpaRepository<Clase, Long>{
 	Clase findById(long id);
 
 	List<Clase> findBySalon(Salon salon);
+
+	List<Clase> findBySalon(Salon salon, Sort sort);
 }

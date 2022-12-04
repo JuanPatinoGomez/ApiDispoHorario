@@ -64,6 +64,11 @@ public class ClaseServiceImpl implements IClaseService{
 	}
 
 	@Override
+	public List<Clase> findBySalon(Long idSalon, Sort sort) {
+		return claseDao.findBySalon(salonDao.findById(idSalon).orElse(null), sort);
+	}
+
+	@Override
 	public List<String> horasPorDia(Long idSalon, String dia){
 		List<String> allHoras = Arrays.asList("06:00", "07:30", "09:00", "10:30", "12:00", "13:30", "15:00", "16:30", "18:00", "19:30", "21:00", "22:30");
 		List<Clase> allClasesSalon = claseDao.findBySalon(salonDao.findById(idSalon).orElse(null));

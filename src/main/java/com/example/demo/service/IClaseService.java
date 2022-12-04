@@ -8,15 +8,17 @@ import com.example.demo.entity.Clase;
 
 public interface IClaseService {
 	
-	public List<Clase> findAll(Sort sort);
+	List<Clase> findAll(Sort sort);
 	
-	public Clase findById(long id);
+	Clase findById(long id);
 	
-	public void delete(long id);
+	void delete(long id);
 	
-	public Clase save(Clase clase);
+	Clase save(Clase clase);
 
-	public List<Clase> findBySalon(Long idSalon);
+	List<Clase> findBySalon(Long idSalon);
+
+	List<Clase> findBySalon(Long idSalon, Sort sort);
 
 	List<String> horasPorDia(Long idSalon, String dia);
 

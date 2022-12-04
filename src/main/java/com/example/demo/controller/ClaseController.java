@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -34,23 +35,23 @@ public class ClaseController {
 		List<Clase> clases = claseService.findAll(sort);
 		
 		if(clases.size() > 0 ) {
-			return new ResponseEntity<List<Clase>>(clases, HttpStatus.OK);
+			return new ResponseEntity<>(clases, HttpStatus.OK);
 		}else {
-			return new ResponseEntity<List<Clase>>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 		
 	}
 	
 	@GetMapping("/clases/{id}")
-	public ResponseEntity<Clase> findById(@PathVariable(name = "id", required = true)long id){
+	public ResponseEntity<Clase> findById(@PathVariable(name = "id")long id){
 		
 		Clase clase = claseService.findById(id);
 		
 		if(clase == null) {
-			return new ResponseEntity<Clase>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 		
-		return new ResponseEntity<Clase>(clase, HttpStatus.OK);
+		return new ResponseEntity<>(clase, HttpStatus.OK);
 		
 	}
 	
@@ -63,12 +64,12 @@ public class ClaseController {
 		if(result.hasErrors()) {
 			
 			List<String> errors = result.getAllErrors().stream()
-					.map(error -> error.getDefaultMessage())
+					.map(DefaultMessageSourceResolvable::getDefaultMessage)
 					.collect(Collectors.toList());
 			
 			response.put("errors", errors);
 			
-			return new ResponseEntity<Map<String,Object>>(response, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		}
 		
 		//En caso se que no hayan errores se procede a realizar el insert en la base de datos
@@ -79,17 +80,17 @@ public class ClaseController {
 			
 			response.put("clase", claseFromDb);
 			response.put("mensaje", "clase creado de manera exitosa");
-			return new ResponseEntity<Map<String,Object>>(response, HttpStatus.OK);
+			return new ResponseEntity<>(response, HttpStatus.OK);
 			
 		} catch (DataAccessException e) {
-			response.put("Mensaje", "El clase NO ha sido creado de manera exitosa:" + e.getMostSpecificCause().toString());
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+			response.put("Mensaje", "El clase NO ha sido creado de manera exitosa:" + e.getMostSpecificCause());
+			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 	}
 	
 	@PutMapping("/clases/{id}")
-	public ResponseEntity<Map<String, Object>> update(@Valid @RequestBody Clase clase, @PathVariable(name = "id", required = true)long id, BindingResult result){
+	public ResponseEntity<Map<String, Object>> update(@Valid @RequestBody Clase clase, @PathVariable(name = "id")long id, BindingResult result){
 		
 		Map<String, Object> response = new HashMap<>();
 		
@@ -97,12 +98,12 @@ public class ClaseController {
 		if(result.hasErrors()) {
 			
 			List<String> errors = result.getAllErrors().stream()
-					.map(error -> error.getDefaultMessage())
+					.map(DefaultMessageSourceResolvable::getDefaultMessage)
 					.collect(Collectors.toList());
 			
 			response.put("errors", errors);
 			
-			return new ResponseEntity<Map<String,Object>>(response, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		}
 		
 		//En caso se que no hayan errores se procede a realizar el insert en la base de datos
@@ -114,7 +115,7 @@ public class ClaseController {
 			//Si no existe se envia el estado not found
 			if(claseDb == null) {
 				response.put("mensaje", "El clase con el id " + id + " no se encuentra en la base de datos");
-				return new ResponseEntity<Map<String,Object>>(response, HttpStatus.NO_CONTENT);
+				return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
 			}
 			
 			//En caso de que el clase si exista en la base de datos se continua con la actualizacións
@@ -123,17 +124,17 @@ public class ClaseController {
 			
 			response.put("clase", claseFromDb);
 			response.put("mensaje", "clase creado de manera exitosa");
-			return new ResponseEntity<Map<String,Object>>(response, HttpStatus.OK);
+			return new ResponseEntity<>(response, HttpStatus.OK);
 			
 		} catch (DataAccessException e) {
-			response.put("Mensaje", "El clase NO ha sido actualizado de manera exitosa:" + e.getMostSpecificCause().toString());
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+			response.put("Mensaje", "El clase NO ha sido actualizado de manera exitosa:" + e.getMostSpecificCause());
+			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 	}
 	
 	@DeleteMapping("/clases/{id}")
-	public ResponseEntity<Map<String, Object>> delete(@PathVariable(name = "id", required = true)long id){
+	public ResponseEntity<Map<String, Object>> delete(@PathVariable(name = "id")long id){
 	
 		Map<String, Object> response = new HashMap<>();
 		
@@ -144,19 +145,19 @@ public class ClaseController {
 			//Si no existe se envia el estado not found
 			if(clase == null) {
 				response.put("mensaje", "El clase con el id " + id + " no se encuentra en la base de datos");
-				return new ResponseEntity<Map<String,Object>>(response, HttpStatus.NO_CONTENT);
+				return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
 			}
 			
 			//Si existe se procede a eliminar el edificio
 			claseService.delete(id);
 			
 			response.put("mensaje", "clase eliminado de manera correcta");
-			return new ResponseEntity<Map<String,Object>>(response, HttpStatus.OK);
+			return new ResponseEntity<>(response, HttpStatus.OK);
 			
 			
 		} catch (DataAccessException e) {
 			response.put("Mensaje", "El clase NO ha sido eliminado de manera exitosa:" + e.getMostSpecificCause().toString());
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 		
@@ -165,6 +166,12 @@ public class ClaseController {
 	@GetMapping("/clases/salon/{id}")
 	public List<Clase> findBySalon(@PathVariable Long id){
 		return claseService.findBySalon(id);
+	}
+	@GetMapping("/clases/salon/{id}/sort/horainicio")
+	public List<Clase> findBySalonSort(@PathVariable Long id){
+		System.out.println("Ordenado");
+		System.out.println(claseService.findBySalon(id, Sort.by("horaInicio")));
+		return claseService.findBySalon(id, Sort.by("horaInicio"));
 	}
 
 	@GetMapping("/clases/horasOcupadas/salon/{id}/dia/{dia}")
