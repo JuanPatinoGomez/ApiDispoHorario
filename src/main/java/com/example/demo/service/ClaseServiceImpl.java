@@ -80,4 +80,9 @@ public class ClaseServiceImpl implements IClaseService{
 		return horasDisponibles;
 	}
 
+	@Override
+	public List<Clase> findBySalonOrderByHoraInicio(Long idSalon) {
+		return claseDao.findBySalonOrderByHoraInicio(salonDao.findById(idSalon).orElse(null));
+	}
+
 }

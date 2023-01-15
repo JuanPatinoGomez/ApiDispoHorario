@@ -166,4 +166,8 @@ public class SalonController {
 		return salonService.findByEdificio(id);
 	}
 
+	@GetMapping("/salones/edificio/{id}/orderByNumero")
+	public List<Salon> findByEdificioOrderByNumero(@PathVariable Long id){
+		return salonService.findByEdificioOrderByNumero(id);
+	}
 }

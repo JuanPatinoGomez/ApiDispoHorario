@@ -19,4 +19,6 @@ public interface IEdificioDao extends JpaRepository<Edificio, Long>{
 
 	//@Query(value = "select p from Edificio p left join fetch p.sede where p.id = :id")
 	List<Edificio> findAllBySede(Sede sede);
+
+	List<Edificio> findAllBySedeOrderByNombre(Sede sede);
 }

@@ -19,4 +19,6 @@ public interface IEdificioService {
 
 	List<Edificio> findAllBySede(Long idSede);
 
+	List<Edificio> findAllBySedeOrderByNombre(Long idSede);
+
 }

@@ -178,4 +178,9 @@ public class ClaseController {
 	public List<String> horasPorDia(@PathVariable Long id, @PathVariable String dia){
 		return claseService.horasPorDia(id, dia);
 	}
+
+	@GetMapping("/clases/salon/{id}/orderByHoraInicio")
+	public List<Clase> findBySalonOrderByHoraInicio(@PathVariable Long id){
+		return claseService.findBySalonOrderByHoraInicio(id);
+	}
 }

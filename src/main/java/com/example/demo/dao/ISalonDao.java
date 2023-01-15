@@ -18,4 +18,6 @@ public interface ISalonDao extends JpaRepository<Salon, Long>{
 	Salon findById(long id);
 
 	List<Salon> findByEdificio(Edificio edificio);
+
+	List<Salon> findByEdificioOrderByNumero(Edificio edificio);
 }

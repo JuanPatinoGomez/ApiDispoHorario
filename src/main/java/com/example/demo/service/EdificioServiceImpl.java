@@ -57,4 +57,9 @@ public class EdificioServiceImpl implements IEdificioService{
 		return edificioDao.findAllBySede(sedeDao.findById(idSede).orElse(null));
 	}
 
+	@Override
+	public List<Edificio> findAllBySedeOrderByNombre(Long idSede) {
+		return edificioDao.findAllBySedeOrderByNombre(sedeDao.findById(idSede).orElse(null));
+	}
+
 }

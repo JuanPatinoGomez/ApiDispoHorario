@@ -20,4 +20,7 @@ public interface ISalonService {
 
 	List<Salon> findByEdificio(Long idEdificio);
 
+	List<Salon> findByEdificioOrderByNumero(Long idEdificio);
+
+
 }

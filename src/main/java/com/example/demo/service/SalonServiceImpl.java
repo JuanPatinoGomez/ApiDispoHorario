@@ -56,4 +56,10 @@ public class SalonServiceImpl implements ISalonService{
 		return salonDao.findByEdificio(edificioDao.findById(idEdificio).orElse(null));
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public List<Salon> findByEdificioOrderByNumero(Long idEdificio) {
+		return salonDao.findByEdificioOrderByNumero(edificioDao.findById(idEdificio).orElse(null));
+	}
+
 }

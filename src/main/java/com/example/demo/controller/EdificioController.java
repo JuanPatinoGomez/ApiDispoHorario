@@ -47,10 +47,10 @@ public class EdificioController {
 		
 		if(edificio == null) {
 			
-			return new ResponseEntity<Edificio>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 		
-		return new ResponseEntity<Edificio>(edificio, HttpStatus.OK);
+		return new ResponseEntity<>(edificio, HttpStatus.OK);
 		
 	}
 	
@@ -68,7 +68,7 @@ public class EdificioController {
 			
 			response.put("errors", errors);
 			
-			return new ResponseEntity<Map<String,Object>>(response, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		}
 		
 		//En caso se que no hayan errores se procede a realizar el insert en la base de datos
@@ -79,12 +79,12 @@ public class EdificioController {
 			
 			response.put("edificio", edificioFromDb);
 			response.put("mensaje", "Edificio creado de manera exitosa");
-			return new ResponseEntity<Map<String,Object>>(response, HttpStatus.OK);
+			return new ResponseEntity<>(response, HttpStatus.OK);
 			
 		} catch (DataAccessException e) {
 			
 			response.put("Mensaje", "El edificio NO ha sido creado de manera exitosa:" + e.getMostSpecificCause().toString());
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 	}
@@ -103,7 +103,7 @@ public class EdificioController {
 			
 			response.put("errors", errors);
 			
-			return new ResponseEntity<Map<String,Object>>(response, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		}
 		
 		//En caso se que no hayan errores se procede a realizar el insert en la base de datos
@@ -129,7 +129,7 @@ public class EdificioController {
 		} catch (DataAccessException e) {
 			
 			response.put("Mensaje", "El edificio NO ha sido creado de manera exitosa:" + e.getMostSpecificCause().toString());
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 	}
@@ -146,18 +146,18 @@ public class EdificioController {
 			//Si no existe se envia el estado not found
 			if(edificio == null) {
 				response.put("mensaje", "edificio con el id " + id + " no se encuentra en la base de datos");
-				return new ResponseEntity<Map<String, Object>>(HttpStatus.NO_CONTENT);
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 			}
 			
 			//Si existe se procede a eliminar el edificio
 			edificioService.delete(id);
 			
 			response.put("mensaje", "Edificio eliminado de manera correcta");
-			return new ResponseEntity<Map<String,Object>>(response, HttpStatus.OK);
+			return new ResponseEntity<>(response, HttpStatus.OK);
 			
 		} catch (DataAccessException e) {
 			response.put("Mensaje", "El edificio NO ha sido eliminado de manera exitosa:" + e.getMostSpecificCause().toString());
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 
@@ -167,6 +167,9 @@ public class EdificioController {
 	public List<Edificio> findAllBySede(@PathVariable Long id){
 		return edificioService.findAllBySede(id);
 	}
-	
+	@GetMapping(path = "/edificios/sede/{id}/orderByNombre")
+	public List<Edificio> findAllBySedeOrderByNombre(@PathVariable Long id){
+		return edificioService.findAllBySedeOrderByNombre(id);
+	}
 
 }
