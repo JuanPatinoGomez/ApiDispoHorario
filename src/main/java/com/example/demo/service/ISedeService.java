@@ -6,12 +6,12 @@ import com.example.demo.entity.Sede;
 
 public interface ISedeService {
 	
-	public List<Sede> findAll();
+	List<Sede> findAll();
 	
-	public Sede findById(long id);
+	Sede findById(long id);
 	
-	public void delete(long id);
+	void delete(long id);
 	
-	public Sede save(Sede sede);
+	Sede save(Sede sede);
 
 }

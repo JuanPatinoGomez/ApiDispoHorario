@@ -9,14 +9,14 @@ import com.example.demo.entity.Edificio;
 
 public interface IEdificioService {
 	
-	public List<Edificio> findAll(Sort sort);
+	List<Edificio> findAll(Sort sort);
 	
-	public Edificio findById(long id);
+	Edificio findById(long id);
 	
-	public void delete(long id);
+	void delete(long id);
 	
-	public Edificio save(Edificio edificio);
+	Edificio save(Edificio edificio);
 
-	public List<Edificio> findAllBySede(Long idSede);
+	List<Edificio> findAllBySede(Long idSede);
 
 }

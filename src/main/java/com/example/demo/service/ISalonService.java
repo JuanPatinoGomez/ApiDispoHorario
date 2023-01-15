@@ -10,14 +10,14 @@ import com.example.demo.entity.Salon;
 
 public interface ISalonService {
 	
-	public List<Salon> findAll(Sort sort);
+	List<Salon> findAll(Sort sort);
 	
-	public Salon findById(long id);
+	Salon findById(long id);
 	
-	public void delete(long id);
+	void delete(long id);
 	
-	public Salon save(Salon salon);
+	Salon save(Salon salon);
 
-	public List<Salon> findByEdificio(Long idEdificio);
+	List<Salon> findByEdificio(Long idEdificio);
 
 }
