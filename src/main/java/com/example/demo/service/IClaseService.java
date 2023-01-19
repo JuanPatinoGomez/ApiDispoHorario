@@ -21,7 +21,7 @@ public interface IClaseService {
 
 	List<Clase> findBySalon(Long idSalon, Sort sort);
 
-	List<String> horasPorDia(Long idSalon, String dia);
+	List<String> horasPorDia(Long idSalon, Long idClase, String dia);
 
 	List<Clase> findBySalonOrderByHoraInicio(Long idSalon);
 

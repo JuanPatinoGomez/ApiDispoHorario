@@ -69,10 +69,10 @@ public class ClaseServiceImpl implements IClaseService{
 	}
 
 	@Override
-	public List<String> horasPorDia(Long idSalon, String dia){
-		List<String> allHoras = Arrays.asList("06:00", "07:30", "09:00", "10:30", "12:00", "13:30", "15:00", "16:30", "18:00", "19:30", "21:00", "22:30");
+	public List<String> horasPorDia(Long idSalon, Long idClase,String dia){
+		List<String> allHoras = Arrays.asList("06:00:00", "07:30:00", "09:00:00", "10:30:00", "12:00:00", "13:30:00", "15:00:00", "16:30:00", "18:00:00", "19:30:00", "21:00:00", "22:30:00");
 		List<Clase> allClasesSalon = claseDao.findBySalon(salonDao.findById(idSalon).orElse(null));
-		List<String> horasOcupadas = allClasesSalon.stream().filter(clase -> clase.getDia().equals(dia)).map(dd -> dd.getHoraInicio().toString()).collect(Collectors.toList());
+		List<String> horasOcupadas = allClasesSalon.stream().filter(clase -> clase.getDia().equals(dia) && (clase.getId() != idClase || idClase == 0L)).map(dd -> dd.getHoraInicio().toString().concat(":00")).collect(Collectors.toList());
 		List<String> horasDisponibles = allHoras.stream().filter(alh -> !horasOcupadas.stream().anyMatch(hoo -> hoo.equals(alh))).collect(Collectors.toList());
 		System.out.println("idsalon: " + idSalon + " / dia: " + dia);
 		System.out.println(horasOcupadas);
