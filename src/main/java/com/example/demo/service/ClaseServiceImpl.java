@@ -10,8 +10,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.demo.dao.IClaseDao;
-import com.example.demo.dao.ISalonDao;
+import com.example.demo.repository.IClaseRepository;
+import com.example.demo.repository.ISalonRepository;
 import com.example.demo.entity.Clase;
 import com.example.demo.entity.Salon;
 
@@ -19,10 +19,10 @@ import com.example.demo.entity.Salon;
 public class ClaseServiceImpl implements IClaseService{
 	
 	@Autowired
-	private IClaseDao claseDao;
+	private IClaseRepository claseDao;
 	
 	@Autowired
-	private ISalonDao salonDao;
+	private ISalonRepository salonDao;
 
 	@Override
 	@Transactional(readOnly = true)

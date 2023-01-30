@@ -7,8 +7,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.demo.dao.IEdificioDao;
-import com.example.demo.dao.ISalonDao;
+import com.example.demo.repository.IEdificioRepository;
+import com.example.demo.repository.ISalonRepository;
 import com.example.demo.entity.Edificio;
 import com.example.demo.entity.Salon;
 
@@ -16,10 +16,10 @@ import com.example.demo.entity.Salon;
 public class SalonServiceImpl implements ISalonService{
 	
 	@Autowired
-	private ISalonDao salonDao;
+	private ISalonRepository salonDao;
 	
 	@Autowired
-	private IEdificioDao edificioDao;
+	private IEdificioRepository edificioDao;
 
 	@Override
 	@Transactional(readOnly = true)

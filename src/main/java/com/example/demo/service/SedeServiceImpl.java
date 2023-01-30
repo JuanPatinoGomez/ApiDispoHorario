@@ -6,14 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.demo.dao.ISedeDao;
+import com.example.demo.repository.ISedeRepository;
 import com.example.demo.entity.Sede;
 
 @Service
 public class SedeServiceImpl implements ISedeService{
 	
 	@Autowired
-	private ISedeDao sedeDao;
+	private ISedeRepository sedeDao;
 
 	@Override
 	@Transactional(readOnly = true)

@@ -1,4 +1,4 @@
-package com.example.demo.dao;
+package com.example.demo.repository;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.example.demo.entity.Clase;
 
-public interface IClaseDao extends JpaRepository<Clase, Long>{
+public interface IClaseRepository extends JpaRepository<Clase, Long>{
 
 	@Query(value = "select p from Clase p left join fetch p.salon")
 	List<Clase> findAll(Sort sort);

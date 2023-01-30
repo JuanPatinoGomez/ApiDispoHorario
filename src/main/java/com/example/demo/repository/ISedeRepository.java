@@ -1,9 +1,9 @@
-package com.example.demo.dao;
+package com.example.demo.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.demo.entity.Sede;
 
-public interface ISedeDao extends JpaRepository<Sede, Long>{
+public interface ISedeRepository extends JpaRepository<Sede, Long>{
 
 }

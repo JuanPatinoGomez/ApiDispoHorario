@@ -1,13 +1,12 @@
 package com.example.demo.qrgenerator.service;
 
-import com.example.demo.dao.IEdificioDao;
-import com.example.demo.dao.ISalonDao;
-import com.example.demo.dao.ISedeDao;
+import com.example.demo.repository.IEdificioRepository;
+import com.example.demo.repository.ISalonRepository;
+import com.example.demo.repository.ISedeRepository;
 import com.example.demo.entity.Edificio;
 import com.example.demo.entity.Salon;
 import com.example.demo.entity.Sede;
 import com.example.demo.qrgenerator.QRCodeGenerator;
-import com.example.demo.service.IEdificioService;
 import com.google.zxing.WriterException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,17 +14,16 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class QRServiceImpl implements IQRService{
 
     @Autowired
-    private ISedeDao sedeDao;
+    private ISedeRepository sedeDao;
     @Autowired
-    private IEdificioDao edificioDao;
+    private IEdificioRepository edificioDao;
     @Autowired
-    private ISalonDao salonDao;
+    private ISalonRepository salonDao;
     @Override
     public void qrApp(String urlApp) throws WriterException, IOException {
         QRCodeGenerator.generateQRCodeImage(urlApp, 200, 200, "C:\\Universidad\\Trabajo_grado\\qr\\prueba-generarqr\\qr.png");

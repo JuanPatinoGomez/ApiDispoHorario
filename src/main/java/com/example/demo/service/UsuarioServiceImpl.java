@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.dao.IUsuarioDao;
+import com.example.demo.repository.IUsuarioRepository;
 import com.example.demo.entity.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 public class UsuarioServiceImpl implements IUsuarioService{
     @Autowired
-    private IUsuarioDao usuarioDao;
+    private IUsuarioRepository usuarioDao;
 
     @Override
     public List<Usuario> findAll() {
