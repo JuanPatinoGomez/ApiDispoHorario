@@ -13,30 +13,30 @@ import com.example.demo.entity.Sede;
 public class SedeServiceImpl implements ISedeService{
 	
 	@Autowired
-	private ISedeRepository sedeDao;
+	private ISedeRepository sedeRepository;
 
 	@Override
 	@Transactional(readOnly = true)
 	public List<Sede> findAll() {
-		return sedeDao.findAll();
+		return sedeRepository.findAll();
 	}
 
 	@Override
 	@Transactional(readOnly = true)
 	public Sede findById(long id) {
-		return sedeDao.findById(id).orElse(null);
+		return sedeRepository.findById(id).orElse(null);
 	}
 
 	@Override
 	@Transactional
 	public void delete(long id) {
-		sedeDao.deleteById(id);
+		sedeRepository.deleteById(id);
 	}
 
 	@Override
 	@Transactional
 	public Sede save(Sede sede) {
-		return sedeDao.save(sede);
+		return sedeRepository.save(sede);
 	}
 
 }

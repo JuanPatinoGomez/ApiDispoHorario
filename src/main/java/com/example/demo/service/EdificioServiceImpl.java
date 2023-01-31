@@ -16,50 +16,50 @@ import com.example.demo.entity.Sede;
 public class EdificioServiceImpl implements IEdificioService{
 	
 	@Autowired
-	private IEdificioRepository edificioDao;
+	private IEdificioRepository edificioRepository;
 	
 	@Autowired
-	private ISedeRepository sedeDao;
+	private ISedeRepository sedeRepository;
 
 	@Override
 	@Transactional(readOnly = true)
 	public List<Edificio> findAll(Sort sort) {
-		return edificioDao.findAll(sort);
+		return edificioRepository.findAll(sort);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
 	public Edificio findById(long id) {
-		return edificioDao.findById(id);
+		return edificioRepository.findById(id);
 	}
 
 	@Override
 	@Transactional
 	public void delete(long id) {
-		edificioDao.deleteById(id);
+		edificioRepository.deleteById(id);
 	}
 
 	@Override
 	@Transactional
 	public Edificio save(Edificio edificio) {
 		
-		Sede sede = sedeDao.findById(edificio.getSede().getId()).orElse(null);
+		Sede sede = sedeRepository.findById(edificio.getSede().getId()).orElse(null);
 		
 		edificio.setSede(sede);
 		
-		return edificioDao.save(edificio);
+		return edificioRepository.save(edificio);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
 	public List<Edificio> findAllBySede(Long idSede) {
 
-		return edificioDao.findAllBySede(sedeDao.findById(idSede).orElse(null));
+		return edificioRepository.findAllBySede(sedeRepository.findById(idSede).orElse(null));
 	}
 
 	@Override
 	public List<Edificio> findAllBySedeOrderByNombre(Long idSede) {
-		return edificioDao.findAllBySedeOrderByNombre(sedeDao.findById(idSede).orElse(null));
+		return edificioRepository.findAllBySedeOrderByNombre(sedeRepository.findById(idSede).orElse(null));
 	}
 
 }

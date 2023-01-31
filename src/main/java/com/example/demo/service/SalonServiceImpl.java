@@ -16,50 +16,50 @@ import com.example.demo.entity.Salon;
 public class SalonServiceImpl implements ISalonService{
 	
 	@Autowired
-	private ISalonRepository salonDao;
+	private ISalonRepository salonRepository;
 	
 	@Autowired
-	private IEdificioRepository edificioDao;
+	private IEdificioRepository edificioRepository;
 
 	@Override
 	@Transactional(readOnly = true)
 	public List<Salon> findAll(Sort sort) {
-		return salonDao.findAll(sort);
+		return salonRepository.findAll(sort);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
 	public Salon findById(long id) {
-		return salonDao.findById(id);
+		return salonRepository.findById(id);
 	}
 
 	@Override
 	@Transactional
 	public void delete(long id) {
-		salonDao.deleteById(id);
+		salonRepository.deleteById(id);
 	}
 
 	@Override
 	@Transactional
 	public Salon save(Salon salon) {
 		
-		Edificio edificio = edificioDao.findById(salon.getEdificio().getId()).orElse(null);
+		Edificio edificio = edificioRepository.findById(salon.getEdificio().getId()).orElse(null);
 		
 		salon.setEdificio(edificio);
 
-		return salonDao.save(salon);
+		return salonRepository.save(salon);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
 	public List<Salon> findByEdificio(Long idEdificio) {
-		return salonDao.findByEdificio(edificioDao.findById(idEdificio).orElse(null));
+		return salonRepository.findByEdificio(edificioRepository.findById(idEdificio).orElse(null));
 	}
 
 	@Override
 	@Transactional(readOnly = true)
 	public List<Salon> findByEdificioOrderByNumero(Long idEdificio) {
-		return salonDao.findByEdificioOrderByNumero(edificioDao.findById(idEdificio).orElse(null));
+		return salonRepository.findByEdificioOrderByNumero(edificioRepository.findById(idEdificio).orElse(null));
 	}
 
 }

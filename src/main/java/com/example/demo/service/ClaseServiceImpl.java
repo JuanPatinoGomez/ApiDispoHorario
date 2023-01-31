@@ -19,34 +19,34 @@ import com.example.demo.entity.Salon;
 public class ClaseServiceImpl implements IClaseService{
 	
 	@Autowired
-	private IClaseRepository claseDao;
+	private IClaseRepository claseRepository;
 	
 	@Autowired
-	private ISalonRepository salonDao;
+	private ISalonRepository salonRepository;
 
 	@Override
 	@Transactional(readOnly = true)
 	public List<Clase> findAll(Sort sort) {
-		return claseDao.findAll(sort);
+		return claseRepository.findAll(sort);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
 	public Clase findById(long id) {
-		return claseDao.findById(id);
+		return claseRepository.findById(id);
 	}
 
 	@Override
 	@Transactional
 	public void delete(long id) {
-		claseDao.deleteById(id);
+		claseRepository.deleteById(id);
 	}
 
 	@Override
 	@Transactional
 	public Clase save(Clase clase) {
 		
-		Salon salon = salonDao.findById(clase.getSalon().getId()).orElse(null);
+		Salon salon = salonRepository.findById(clase.getSalon().getId()).orElse(null);
 
 		LocalTime horaFinalizacion = clase.getHoraInicio().plusHours(1);
 		horaFinalizacion = horaFinalizacion.plusMinutes(30);
@@ -54,24 +54,24 @@ public class ClaseServiceImpl implements IClaseService{
 		clase.setHoraFinalizacion(horaFinalizacion);
 		clase.setSalon(salon);
 		
-		return claseDao.save(clase);
+		return claseRepository.save(clase);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
 	public List<Clase> findBySalon(Long idSalon) {
-		return claseDao.findBySalon(salonDao.findById(idSalon).orElse(null));
+		return claseRepository.findBySalon(salonRepository.findById(idSalon).orElse(null));
 	}
 
 	@Override
 	public List<Clase> findBySalon(Long idSalon, Sort sort) {
-		return claseDao.findBySalon(salonDao.findById(idSalon).orElse(null), sort);
+		return claseRepository.findBySalon(salonRepository.findById(idSalon).orElse(null), sort);
 	}
 
 	@Override
 	public List<String> horasPorDia(Long idSalon, Long idClase,String dia){
 		List<String> allHoras = Arrays.asList("06:00:00", "07:30:00", "09:00:00", "10:30:00", "12:00:00", "13:30:00", "15:00:00", "16:30:00", "18:00:00", "19:30:00", "21:00:00", "22:30:00");
-		List<Clase> allClasesSalon = claseDao.findBySalon(salonDao.findById(idSalon).orElse(null));
+		List<Clase> allClasesSalon = claseRepository.findBySalon(salonRepository.findById(idSalon).orElse(null));
 		List<String> horasOcupadas = allClasesSalon.stream().filter(clase -> clase.getDia().equals(dia) && (clase.getId() != idClase || idClase == 0L)).map(dd -> dd.getHoraInicio().toString().concat(":00")).collect(Collectors.toList());
 		List<String> horasDisponibles = allHoras.stream().filter(alh -> !horasOcupadas.stream().anyMatch(hoo -> hoo.equals(alh))).collect(Collectors.toList());
 		System.out.println("idsalon: " + idSalon + " / dia: " + dia);
@@ -82,7 +82,7 @@ public class ClaseServiceImpl implements IClaseService{
 
 	@Override
 	public List<Clase> findBySalonOrderByHoraInicio(Long idSalon) {
-		return claseDao.findBySalonOrderByHoraInicio(salonDao.findById(idSalon).orElse(null));
+		return claseRepository.findBySalonOrderByHoraInicio(salonRepository.findById(idSalon).orElse(null));
 	}
 
 }
