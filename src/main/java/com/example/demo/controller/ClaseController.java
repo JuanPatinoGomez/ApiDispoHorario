@@ -21,13 +21,13 @@ import com.example.demo.entity.Clase;
 import com.example.demo.service.IClaseService;
 @CrossOrigin(origins = { "http://localhost:4200"})
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/clases")
 public class ClaseController {
 
 	@Autowired
 	private IClaseService claseService;
 	
-	@GetMapping("/clases")
+	@GetMapping()
 	public ResponseEntity<List<Clase>> findAll(){
 		
 		Sort sort = Sort.by("dia", "horaInicio");
@@ -42,7 +42,7 @@ public class ClaseController {
 		
 	}
 	
-	@GetMapping("/clases/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<Clase> findById(@PathVariable(name = "id")long id){
 		
 		Clase clase = claseService.findById(id);
@@ -55,7 +55,7 @@ public class ClaseController {
 		
 	}
 	
-	@PostMapping("/clases")
+	@PostMapping()
 	public ResponseEntity<Map<String, Object>> insert(@Valid @RequestBody Clase clase, BindingResult result){
 		
 		Map<String, Object> response = new HashMap<>();
@@ -89,7 +89,7 @@ public class ClaseController {
 		
 	}
 	
-	@PutMapping("/clases/{id}")
+	@PutMapping("/{id}")
 	public ResponseEntity<Map<String, Object>> update(@Valid @RequestBody Clase clase, @PathVariable(name = "id")long id, BindingResult result){
 		
 		Map<String, Object> response = new HashMap<>();
@@ -133,7 +133,7 @@ public class ClaseController {
 		
 	}
 	
-	@DeleteMapping("/clases/{id}")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<Map<String, Object>> delete(@PathVariable(name = "id")long id){
 	
 		Map<String, Object> response = new HashMap<>();
@@ -163,7 +163,7 @@ public class ClaseController {
 		
 	}
 
-	@GetMapping("/clases/salon/{id}")
+	@GetMapping("/salon/{id}")
 	public List<Clase> findBySalon(@PathVariable Long id){
 		return claseService.findBySalon(id);
 	}
@@ -174,12 +174,12 @@ public class ClaseController {
 		return claseService.findBySalon(id, Sort.by("horaInicio"));
 	}
 
-	@GetMapping("/clases/horasOcupadas/{idClase}/salon/{id}/dia/{dia}")
+	@GetMapping("/horasOcupadas/{idClase}/salon/{id}/dia/{dia}")
 	public List<String> horasPorDia(@PathVariable Long id, @PathVariable Long idClase,@PathVariable String dia){
 		return claseService.horasPorDia(id, idClase, dia);
 	}
 
-	@GetMapping("/clases/salon/{id}/orderByHoraInicio")
+	@GetMapping("/salon/{id}/orderByHoraInicio")
 	public List<Clase> findBySalonOrderByHoraInicio(@PathVariable Long id){
 		return claseService.findBySalonOrderByHoraInicio(id);
 	}

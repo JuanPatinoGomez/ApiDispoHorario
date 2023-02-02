@@ -19,13 +19,13 @@ import com.example.demo.entity.Salon;
 import com.example.demo.service.ISalonService;
 @CrossOrigin(origins = { "http://localhost:4200"})
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/salones")
 public class SalonController {
 	
 	@Autowired
 	private ISalonService salonService;
 	
-	@GetMapping("/salones")
+	@GetMapping()
 	public ResponseEntity<List<Salon>> findAll(){
 		
 		Sort sort = Sort.by("numero");
@@ -40,7 +40,7 @@ public class SalonController {
 		
 	}
 	
-	@GetMapping("/salones/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<Salon> findById(@PathVariable(name = "id", required = true)long id){
 		
 		Salon salon = salonService.findById(id);
@@ -53,7 +53,7 @@ public class SalonController {
 		
 	}
 	
-	@PostMapping("/salones")
+	@PostMapping()
 	public ResponseEntity<Map<String, Object>> insert(@Valid @RequestBody Salon salon, BindingResult result){
 		
 		Map<String, Object> response = new HashMap<>();
@@ -87,7 +87,7 @@ public class SalonController {
 		
 	}
 	
-	@PutMapping("/salones/{id}")
+	@PutMapping("/{id}")
 	public ResponseEntity<Map<String, Object>> update(@Valid @RequestBody Salon salon, @PathVariable(name = "id", required = true)long id, BindingResult result){
 		
 		Map<String, Object> response = new HashMap<>();
@@ -131,7 +131,7 @@ public class SalonController {
 		
 	}
 	
-	@DeleteMapping("/salones/{id}")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<Map<String, Object>> delete(@PathVariable(name = "id", required = true)long id){
 	
 		Map<String, Object> response = new HashMap<>();
@@ -161,12 +161,12 @@ public class SalonController {
 		
 	}
 
-	@GetMapping("/salones/edificio/{id}")
+	@GetMapping("/edificio/{id}")
 	public List<Salon> findByEdificio(@PathVariable Long id){
 		return salonService.findByEdificio(id);
 	}
 
-	@GetMapping("/salones/edificio/{id}/orderByNumero")
+	@GetMapping("/edificio/{id}/orderByNumero")
 	public List<Salon> findByEdificioOrderByNumero(@PathVariable Long id){
 		return salonService.findByEdificioOrderByNumero(id);
 	}

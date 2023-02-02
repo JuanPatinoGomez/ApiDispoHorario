@@ -18,13 +18,13 @@ import com.example.demo.entity.Sede;
 import com.example.demo.service.ISedeService;
 @CrossOrigin(origins = { "http://localhost:4200"})
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/sedes")
 public class SedeController {
 	
 	@Autowired
 	private ISedeService sedeService;
 	
-	@GetMapping("/sedes")
+	@GetMapping()
 	public ResponseEntity<List<Sede>> findAll(){
 		
 		List<Sede> sedes = sedeService.findAll();
@@ -37,7 +37,7 @@ public class SedeController {
 		
 	}
 	
-	@GetMapping("/sedes/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<Sede> findById(@PathVariable(name = "id", required = true)long id){
 		
 		Sede sede = sedeService.findById(id);
@@ -49,7 +49,7 @@ public class SedeController {
 		return new ResponseEntity<>(sede, HttpStatus.OK);
 	}
 	
-	@PostMapping("/sedes")
+	@PostMapping()
 	public ResponseEntity<Map<String, Object>> insert(@Valid @RequestBody Sede sede, BindingResult results){
 		
 		Map<String, Object> response = new HashMap<>();
@@ -83,7 +83,7 @@ public class SedeController {
 		
 	}
 	
-	@PutMapping("/sedes/{id}")
+	@PutMapping("/{id}")
 	public ResponseEntity<Map<String, Object>> update(@Valid @RequestBody Sede sede, @PathVariable(name = "id", required = true)long id, BindingResult results){
 		
 		Map<String, Object> response = new HashMap<>();
@@ -128,7 +128,7 @@ public class SedeController {
 		
 	}
 	
-	@DeleteMapping("/sedes/{id}")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<Map<String, Object>> delete(@PathVariable(name = "id", required = true)long id){
 		
 		Map<String, Object> response = new HashMap<>();

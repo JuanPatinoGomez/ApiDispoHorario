@@ -19,13 +19,13 @@ import com.example.demo.entity.Edificio;
 import com.example.demo.service.IEdificioService;
 @CrossOrigin(origins = { "http://localhost:4200"})
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/edificios")
 public class EdificioController {
 	
 	@Autowired
 	private IEdificioService edificioService;
 	
-	@GetMapping("/edificios")
+	@GetMapping()
 	public ResponseEntity<List<Edificio>> findAll(){
 		
 		Sort sort = Sort.by("nombre");
@@ -40,7 +40,7 @@ public class EdificioController {
 		
 	}
 	
-	@GetMapping("/edificios/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<Edificio> findById(@PathVariable(name = "id", required = true)long id){
 		
 		Edificio edificio = edificioService.findById(id);
@@ -54,7 +54,7 @@ public class EdificioController {
 		
 	}
 	
-	@PostMapping("/edificios")
+	@PostMapping()
 	public ResponseEntity<Map<String, Object>> insert(@Valid @RequestBody Edificio edificio, BindingResult results){
 		
 		Map<String, Object> response = new HashMap<>();
@@ -89,7 +89,7 @@ public class EdificioController {
 		
 	}
 	
-	@PutMapping("/edificios/{id}")
+	@PutMapping("/{id}")
 	public ResponseEntity<Map<String, Object>> update(@Valid @RequestBody Edificio edificio, @PathVariable(name = "id", required = true)long id, BindingResult results){
 		
 		Map<String, Object> response = new HashMap<>();
@@ -134,7 +134,7 @@ public class EdificioController {
 		
 	}
 	
-	@DeleteMapping("/edificios/{id}")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<Map<String, Object>> delete(@PathVariable(name = "id", required = true)long id){
 		
 		Map<String, Object> response = new HashMap<>();
@@ -163,11 +163,11 @@ public class EdificioController {
 
 	}
 
-	@GetMapping(path = "/edificios/sede/{id}")
+	@GetMapping(path = "/sede/{id}")
 	public List<Edificio> findAllBySede(@PathVariable Long id){
 		return edificioService.findAllBySede(id);
 	}
-	@GetMapping(path = "/edificios/sede/{id}/orderByNombre")
+	@GetMapping(path = "/sede/{id}/orderByNombre")
 	public List<Edificio> findAllBySedeOrderByNombre(@PathVariable Long id){
 		return edificioService.findAllBySedeOrderByNombre(id);
 	}

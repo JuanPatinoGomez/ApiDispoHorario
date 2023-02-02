@@ -19,13 +19,13 @@ import java.util.stream.Collectors;
 
 @CrossOrigin(origins = { "http://localhost:4200"})
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/usuarios")
 public class UsuarioController {
 
     @Autowired
     private IUsuarioService usuarioService;
 
-    @GetMapping("/usuarios")
+    @GetMapping()
     public ResponseEntity<List<Usuario>> findAll(){
 
         List<Usuario> usuarios = usuarioService.findAll();
@@ -38,7 +38,7 @@ public class UsuarioController {
 
     }
 
-    @PostMapping("/usuarios/validacion")
+    @PostMapping("/validacion")
     public ResponseEntity<Map<String, Object>> validarUsuario(@Valid @RequestBody UsuarioDTO usuarioDTO){
         //Se construye el usuario
         Usuario usuario = conversionDtoEntidad(usuarioDTO);
@@ -75,7 +75,7 @@ public class UsuarioController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PostMapping("/usuarios")
+    @PostMapping()
     public ResponseEntity<Map<String, Object>> insert(@Valid @RequestBody UsuarioDTO usuarioDTO, BindingResult results){
         //Se construye el usuario
         Usuario usuario = conversionDtoEntidad(usuarioDTO);
@@ -124,7 +124,7 @@ public class UsuarioController {
         return usuario;
     }
 
-    @DeleteMapping("/usuarios/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Map<String, Object>> delete(@PathVariable(name = "id", required = true)long id){
 
         Map<String, Object> response = new HashMap<>();
@@ -153,7 +153,7 @@ public class UsuarioController {
 
     }
 
-    @GetMapping("usuarios/{id}/cambioEstado")
+    @GetMapping("/{id}/cambioEstado")
     public ResponseEntity<Usuario> cambioEstado(@PathVariable(name = "id", required = true)long id){
         Usuario usuario = usuarioService.findById(id);
         usuario.setHabilitado(!usuario.getHabilitado());
