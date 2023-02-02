@@ -115,7 +115,7 @@ public class EdificioController {
 			//Si no existe se envia el estado not found
 			if(edificiodb == null) {
 				response.put("mensaje", "edificio con el id " + id + " no se encuentra en la base de datos");
-				return new ResponseEntity<Map<String, Object>>(HttpStatus.NO_CONTENT);
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 			}
 			
 			//En caso de que el edificio si exista en la base de datos se continua con la actualizacións
@@ -124,7 +124,7 @@ public class EdificioController {
 			
 			response.put("edificio", edificioFromDb);
 			response.put("mensaje", "Edificio creado de manera exitosa");
-			return new ResponseEntity<Map<String,Object>>(response, HttpStatus.OK);
+			return new ResponseEntity<>(response, HttpStatus.OK);
 			
 		} catch (DataAccessException e) {
 			

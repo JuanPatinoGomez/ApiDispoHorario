@@ -30,7 +30,7 @@ public class SedeController {
 		List<Sede> sedes = sedeService.findAll();
 		
 		if(sedes.size() > 0) {
-			return new ResponseEntity<List<Sede>>(sedes, HttpStatus.OK);
+			return new ResponseEntity<>(sedes, HttpStatus.OK);
 		}else {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
@@ -43,10 +43,10 @@ public class SedeController {
 		Sede sede = sedeService.findById(id);
 		
 		if(sede == null) {
-			return new ResponseEntity<Sede>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 		
-		return new ResponseEntity<Sede>(sede, HttpStatus.OK);
+		return new ResponseEntity<>(sede, HttpStatus.OK);
 	}
 	
 	@PostMapping("/sedes")
@@ -62,7 +62,7 @@ public class SedeController {
 					.collect(Collectors.toList());
 			
 			response.put("errors", errors);
-			return new ResponseEntity<Map<String,Object>>(response, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 			
 		}
 		
@@ -73,12 +73,12 @@ public class SedeController {
 			response.put("sede", sedeFromDb);
 			response.put("mensaje", "Sede creada de manera exitosas");
 			
-			return new ResponseEntity<Map<String,Object>>(response, HttpStatus.OK);
+			return new ResponseEntity<>(response, HttpStatus.OK);
 			
 		} catch (DataAccessException e) {
 			
 			response.put("Mensaje", "La sede NO ha sido creada de manera exitosa:" + e.getMostSpecificCause().toString());
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 	}
@@ -96,7 +96,7 @@ public class SedeController {
 					.collect(Collectors.toList());
 			
 			response.put("errors", errors);
-			return new ResponseEntity<Map<String,Object>>(response, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 			
 		}
 		
@@ -109,7 +109,7 @@ public class SedeController {
 			//Si no existe se envia el estado not found
 			if(sededb == null) {
 				response.put("mensaje", "La sede con el id " + id + " no se encuentra en la base de datos");
-				return new ResponseEntity<Map<String,Object>>(HttpStatus.NOT_FOUND);
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 			}
 			
 			//En caso de que la sede si exista en la base de datos se continua con la actualización
@@ -118,12 +118,12 @@ public class SedeController {
 			
 			response.put("sede", sedeFromDb);
 			response.put("mensaje", "Sede actualizada de manera exitosas");
-			return new ResponseEntity<Map<String,Object>>(response, HttpStatus.OK);
+			return new ResponseEntity<>(response, HttpStatus.OK);
 			
 		} catch (DataAccessException e) {
 			
 			response.put("Mensaje", "La sede NO ha sido actualizada de manera exitosa:" + e.getMostSpecificCause().toString());
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 	}
@@ -141,18 +141,18 @@ public class SedeController {
 			//Si no existe se envia el estado not found
 			if(sede == null) {
 				response.put("mensaje", "La sede con el id " + id + " no se encuentra en la base de datos");
-				return new ResponseEntity<Map<String,Object>>(HttpStatus.NOT_FOUND);
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 			}
 			
 			//Si existe se procede a eliminar la sede
 			sedeService.delete(id);
 			
 			response.put("mensaje", "Sede eliminada de manera exitosas");
-			return new ResponseEntity<Map<String,Object>>(response, HttpStatus.OK);
+			return new ResponseEntity<>(response, HttpStatus.OK);
 			
 		} catch (DataAccessException e) {
 			response.put("Mensaje", "La sede NO ha sido eliminada de manera exitosa:" + e.getMostSpecificCause().toString());
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 	}

@@ -143,19 +143,19 @@ public class SalonController {
 			//Si no existe se envia el estado not found
 			if(salon == null) {
 				response.put("mensaje", "El salon con el id " + id + " no se encuentra en la base de datos");
-				return new ResponseEntity<Map<String,Object>>(response, HttpStatus.NO_CONTENT);
+				return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
 			}
 			
 			//Si existe se procede a eliminar el edificio
 			salonService.delete(id);
 			
 			response.put("mensaje", "Salon eliminado de manera correcta");
-			return new ResponseEntity<Map<String,Object>>(response, HttpStatus.OK);
+			return new ResponseEntity<>(response, HttpStatus.OK);
 			
 			
 		} catch (DataAccessException e) {
 			response.put("Mensaje", "El salon NO ha sido eliminado de manera exitosa:" + e.getMostSpecificCause().toString());
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 		
