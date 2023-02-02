@@ -41,7 +41,7 @@ public class EdificioController {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Edificio> findById(@PathVariable(name = "id", required = true)long id){
+	public ResponseEntity<Edificio> findById(@PathVariable(name = "id")long id){
 		
 		Edificio edificio = edificioService.findById(id);
 		
@@ -83,14 +83,14 @@ public class EdificioController {
 			
 		} catch (DataAccessException e) {
 			
-			response.put("Mensaje", "El edificio NO ha sido creado de manera exitosa:" + e.getMostSpecificCause().toString());
+			response.put("Mensaje", "El edificio NO ha sido creado de manera exitosa:" + e.getMostSpecificCause());
 			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Map<String, Object>> update(@Valid @RequestBody Edificio edificio, @PathVariable(name = "id", required = true)long id, BindingResult results){
+	public ResponseEntity<Map<String, Object>> update(@Valid @RequestBody Edificio edificio, @PathVariable(name = "id")long id, BindingResult results){
 		
 		Map<String, Object> response = new HashMap<>();
 		
@@ -128,14 +128,14 @@ public class EdificioController {
 			
 		} catch (DataAccessException e) {
 			
-			response.put("Mensaje", "El edificio NO ha sido creado de manera exitosa:" + e.getMostSpecificCause().toString());
+			response.put("Mensaje", "El edificio NO ha sido creado de manera exitosa:" + e.getMostSpecificCause());
 			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 	}
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Map<String, Object>> delete(@PathVariable(name = "id", required = true)long id){
+	public ResponseEntity<Map<String, Object>> delete(@PathVariable(name = "id")long id){
 		
 		Map<String, Object> response = new HashMap<>();
 		
@@ -156,7 +156,7 @@ public class EdificioController {
 			return new ResponseEntity<>(response, HttpStatus.OK);
 			
 		} catch (DataAccessException e) {
-			response.put("Mensaje", "El edificio NO ha sido eliminado de manera exitosa:" + e.getMostSpecificCause().toString());
+			response.put("Mensaje", "El edificio NO ha sido eliminado de manera exitosa:" + e.getMostSpecificCause());
 			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		

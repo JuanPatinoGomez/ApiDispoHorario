@@ -33,23 +33,23 @@ public class SalonController {
 		List<Salon> salones = salonService.findAll(sort);
 		
 		if(salones.size() > 0 ) {
-			return new ResponseEntity<List<Salon>>(salones, HttpStatus.OK);
+			return new ResponseEntity<>(salones, HttpStatus.OK);
 		}else {
-			return new ResponseEntity<List<Salon>>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 		
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Salon> findById(@PathVariable(name = "id", required = true)long id){
+	public ResponseEntity<Salon> findById(@PathVariable(name = "id")long id){
 		
 		Salon salon = salonService.findById(id);
 		
 		if(salon == null) {
-			return new ResponseEntity<Salon>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 		
-		return new ResponseEntity<Salon>(salon, HttpStatus.OK);
+		return new ResponseEntity<>(salon, HttpStatus.OK);
 		
 	}
 	
@@ -67,7 +67,7 @@ public class SalonController {
 			
 			response.put("errors", errors);
 			
-			return new ResponseEntity<Map<String,Object>>(response, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		}
 		
 		//En caso se que no hayan errores se procede a realizar el insert en la base de datos
@@ -78,17 +78,17 @@ public class SalonController {
 			
 			response.put("salon", salonFromDb);
 			response.put("mensaje", "Salon creado de manera exitosa");
-			return new ResponseEntity<Map<String,Object>>(response, HttpStatus.OK);
+			return new ResponseEntity<>(response, HttpStatus.OK);
 			
 		} catch (DataAccessException e) {
-			response.put("Mensaje", "El salon NO ha sido creado de manera exitosa:" + e.getMostSpecificCause().toString());
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+			response.put("Mensaje", "El salon NO ha sido creado de manera exitosa:" + e.getMostSpecificCause());
+			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Map<String, Object>> update(@Valid @RequestBody Salon salon, @PathVariable(name = "id", required = true)long id, BindingResult result){
+	public ResponseEntity<Map<String, Object>> update(@Valid @RequestBody Salon salon, @PathVariable(name = "id")long id, BindingResult result){
 		
 		Map<String, Object> response = new HashMap<>();
 		
@@ -101,7 +101,7 @@ public class SalonController {
 			
 			response.put("errors", errors);
 			
-			return new ResponseEntity<Map<String,Object>>(response, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		}
 		
 		//En caso se que no hayan errores se procede a realizar el insert en la base de datos
@@ -113,7 +113,7 @@ public class SalonController {
 			//Si no existe se envia el estado not found
 			if(salonDb == null) {
 				response.put("mensaje", "El salon con el id " + id + " no se encuentra en la base de datos");
-				return new ResponseEntity<Map<String,Object>>(response, HttpStatus.NO_CONTENT);
+				return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
 			}
 			
 			//En caso de que el salon si exista en la base de datos se continua con la actualizacións
@@ -122,17 +122,17 @@ public class SalonController {
 			
 			response.put("salon", salonFromDb);
 			response.put("mensaje", "Salon creado de manera exitosa");
-			return new ResponseEntity<Map<String,Object>>(response, HttpStatus.OK);
+			return new ResponseEntity<>(response, HttpStatus.OK);
 			
 		} catch (DataAccessException e) {
-			response.put("Mensaje", "El salon NO ha sido actualizado de manera exitosa:" + e.getMostSpecificCause().toString());
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+			response.put("Mensaje", "El salon NO ha sido actualizado de manera exitosa:" + e.getMostSpecificCause());
+			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 	}
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Map<String, Object>> delete(@PathVariable(name = "id", required = true)long id){
+	public ResponseEntity<Map<String, Object>> delete(@PathVariable(name = "id")long id){
 	
 		Map<String, Object> response = new HashMap<>();
 		
@@ -154,7 +154,7 @@ public class SalonController {
 			
 			
 		} catch (DataAccessException e) {
-			response.put("Mensaje", "El salon NO ha sido eliminado de manera exitosa:" + e.getMostSpecificCause().toString());
+			response.put("Mensaje", "El salon NO ha sido eliminado de manera exitosa:" + e.getMostSpecificCause());
 			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		

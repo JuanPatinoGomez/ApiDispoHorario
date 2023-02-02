@@ -156,7 +156,7 @@ public class ClaseController {
 			
 			
 		} catch (DataAccessException e) {
-			response.put("Mensaje", "El clase NO ha sido eliminado de manera exitosa:" + e.getMostSpecificCause().toString());
+			response.put("Mensaje", "El clase NO ha sido eliminado de manera exitosa:" + e.getMostSpecificCause());
 			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		

@@ -109,7 +109,7 @@ public class UsuarioController {
 
         } catch (DataAccessException e) {
 
-            response.put("Mensaje", "El usuario NO ha sido creado de manera exitosa:" + e.getMostSpecificCause().toString());
+            response.put("Mensaje", "El usuario NO ha sido creado de manera exitosa:" + e.getMostSpecificCause());
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -125,7 +125,7 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> delete(@PathVariable(name = "id", required = true)long id){
+    public ResponseEntity<Map<String, Object>> delete(@PathVariable(name = "id")long id){
 
         Map<String, Object> response = new HashMap<>();
 
@@ -147,14 +147,14 @@ public class UsuarioController {
             return new ResponseEntity<>(response, HttpStatus.OK);
 
         } catch (DataAccessException e) {
-            response.put("Mensaje", "Usuario NO ha sido eliminada de manera exitosa:" + e.getMostSpecificCause().toString());
+            response.put("Mensaje", "Usuario NO ha sido eliminada de manera exitosa:" + e.getMostSpecificCause());
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }
 
     @GetMapping("/{id}/cambioEstado")
-    public ResponseEntity<Usuario> cambioEstado(@PathVariable(name = "id", required = true)long id){
+    public ResponseEntity<Usuario> cambioEstado(@PathVariable(name = "id")long id){
         Usuario usuario = usuarioService.findById(id);
         usuario.setHabilitado(!usuario.getHabilitado());
         return new ResponseEntity<>(usuarioService.save(usuario), HttpStatus.OK);

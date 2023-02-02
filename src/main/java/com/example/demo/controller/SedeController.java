@@ -38,7 +38,7 @@ public class SedeController {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Sede> findById(@PathVariable(name = "id", required = true)long id){
+	public ResponseEntity<Sede> findById(@PathVariable(name = "id")long id){
 		
 		Sede sede = sedeService.findById(id);
 		
@@ -77,14 +77,14 @@ public class SedeController {
 			
 		} catch (DataAccessException e) {
 			
-			response.put("Mensaje", "La sede NO ha sido creada de manera exitosa:" + e.getMostSpecificCause().toString());
+			response.put("Mensaje", "La sede NO ha sido creada de manera exitosa:" + e.getMostSpecificCause());
 			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Map<String, Object>> update(@Valid @RequestBody Sede sede, @PathVariable(name = "id", required = true)long id, BindingResult results){
+	public ResponseEntity<Map<String, Object>> update(@Valid @RequestBody Sede sede, @PathVariable(name = "id")long id, BindingResult results){
 		
 		Map<String, Object> response = new HashMap<>();
 		
@@ -129,7 +129,7 @@ public class SedeController {
 	}
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Map<String, Object>> delete(@PathVariable(name = "id", required = true)long id){
+	public ResponseEntity<Map<String, Object>> delete(@PathVariable(name = "id")long id){
 		
 		Map<String, Object> response = new HashMap<>();
 		
@@ -151,7 +151,7 @@ public class SedeController {
 			return new ResponseEntity<>(response, HttpStatus.OK);
 			
 		} catch (DataAccessException e) {
-			response.put("Mensaje", "La sede NO ha sido eliminada de manera exitosa:" + e.getMostSpecificCause().toString());
+			response.put("Mensaje", "La sede NO ha sido eliminada de manera exitosa:" + e.getMostSpecificCause());
 			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
