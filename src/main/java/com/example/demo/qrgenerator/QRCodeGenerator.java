@@ -17,7 +17,9 @@ import java.util.List;
 
 public class QRCodeGenerator {
 
-    private static String urlApp = "http://localhost:8080/api";
+    //private static String urlApp = "http://localhost:8080/api";
+    private static String urlApp = "http://localhost:4200/view";
+
 
     public static void generateQRCodeImage(String url, int width, int height, String filePath) throws WriterException, IOException {
 
@@ -32,7 +34,7 @@ public class QRCodeGenerator {
 
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
         //Codigo qr con la url
-        BitMatrix bitMatrix = qrCodeWriter.encode(urlApp + "/salones/" + idSalon, BarcodeFormat.QR_CODE, width, height);
+        BitMatrix bitMatrix = qrCodeWriter.encode(urlApp + "/clases/salon/" + idSalon, BarcodeFormat.QR_CODE, width, height);
 
         String nombreimagen = sedeMunicipio + "_" + nombreEdificio + "_" + numeroSalon;
         //Lugar en el que se genera la imagen
@@ -46,7 +48,7 @@ public class QRCodeGenerator {
 
         for(HashMap.Entry<Long, Integer> entry : salones.entrySet()){
             //Codigo qr con la url
-            BitMatrix bitMatrix = qrCodeWriter.encode(urlApp + "/salones/" + entry.getKey(), BarcodeFormat.QR_CODE, width, height);
+            BitMatrix bitMatrix = qrCodeWriter.encode(urlApp + "/clases/salon/" + entry.getKey(), BarcodeFormat.QR_CODE, width, height);
 
             String nombreimagen = sedeMunicipio + "_" + nombreEdificio + "_" + entry.getValue();
             //Lugar en el que se genera la imagen
@@ -74,7 +76,7 @@ public class QRCodeGenerator {
         for(Edificio edificio: sede.getEdificios()){
             for(Salon salon : edificio.getSalones()){
                 //Codigo qr con la url
-                BitMatrix bitMatrix = qrCodeWriter.encode(urlApp + "/salones/" + salon.getId(), BarcodeFormat.QR_CODE, width, height);
+                BitMatrix bitMatrix = qrCodeWriter.encode(urlApp + "/clases/salon/" + salon.getId(), BarcodeFormat.QR_CODE, width, height);
 
                 String nombreimagen = sede.getMunicipio() + "_" + edificio.getNombre() + "_" + salon.getNumero();
                 //Lugar en el que se genera la imagen

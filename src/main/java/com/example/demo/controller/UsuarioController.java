@@ -42,22 +42,17 @@ public class UsuarioController {
     public ResponseEntity<Map<String, Object>> validarUsuario(@Valid @RequestBody UsuarioDTO usuarioDTO){
         //Se construye el usuario
         Usuario usuario = conversionDtoEntidad(usuarioDTO);
-
         Map<String, Object> response = new HashMap<>();
-
         Usuario usuarioFromDb = usuarioService.findByUsuario(usuario.getUsuario());
-
         if(usuarioFromDb == null){
             response.put("validacion", Boolean.FALSE);
             response.put("mensaje", "Credenciales incorrectas");
         }else{
-
             byte[] contrasenaLogin = usuario.getContrasena();
             String contrasenaLoginString = new String(contrasenaLogin);
             String contrasenaDB = new String(Base64.decodeBase64(usuarioFromDb.getContrasena()));
 
             if(usuarioFromDb.getHabilitado().equals(Boolean.TRUE)){
-
                 if(contrasenaDB.equals(contrasenaLoginString)){
                     response.put("validacion", Boolean.TRUE);
                     response.put("mensaje", "Credenciales correctas");
@@ -71,7 +66,6 @@ public class UsuarioController {
                 response.put("mensaje", "El usuario no se encuentra habilitado");
             }
         }
-
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
