@@ -10,6 +10,8 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.HashMap;
@@ -18,7 +20,16 @@ import java.util.List;
 public class QRCodeGenerator {
 
     //private static String urlApp = "http://localhost:8080/api";
-    private static String urlApp = "http://localhost:4200/view";
+    //private static String urlApp = "http://localhost:4200/view";
+    private static String urlApp;
+
+    static {
+        try {
+            urlApp = "http://" + obtenerIP() + ":4200/view";
+        } catch (UnknownHostException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 
     public static void generateQRCodeImage(String url, int width, int height, String filePath) throws WriterException, IOException {
@@ -85,5 +96,10 @@ public class QRCodeGenerator {
                 System.out.println("Se genero una imagen en la ruta: \n" + path);
             }
         }
+    }
+
+    static String obtenerIP() throws UnknownHostException {
+        InetAddress ip = InetAddress.getLocalHost();
+        return ip.getHostAddress();
     }
 }

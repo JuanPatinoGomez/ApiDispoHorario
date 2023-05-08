@@ -25,4 +25,6 @@ public interface IClaseService {
 
 	List<Clase> findBySalonOrderByHoraInicio(Long idSalon);
 
+	List<Clase> findBySalonOrderByHoraInicioAndAvailable(Long idSalon);
+
 }

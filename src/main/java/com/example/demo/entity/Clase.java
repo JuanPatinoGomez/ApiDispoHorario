@@ -47,6 +47,26 @@ public class Clase {
 	@JsonIgnoreProperties(ignoreUnknown = true, value = {"edificio"})
 	private Salon salon;
 
+	public Clase() {
+	}
+
+	public Clase(Long id, String nombreAsignatura, String dia, LocalTime horaInicio, LocalTime horaFinalizacion, Salon salon) {
+		this.id = id;
+		this.nombreAsignatura = nombreAsignatura;
+		this.dia = dia;
+		this.horaInicio = horaInicio;
+		this.horaFinalizacion = horaFinalizacion;
+		this.salon = salon;
+	}
+
+	public Clase(String nombreAsignatura, String dia, LocalTime horaInicio, LocalTime horaFinalizacion, Salon salon) {
+		this.nombreAsignatura = nombreAsignatura;
+		this.dia = dia;
+		this.horaInicio = horaInicio;
+		this.horaFinalizacion = horaFinalizacion;
+		this.salon = salon;
+	}
+
 	public Long getId() {
 		return id;
 	}

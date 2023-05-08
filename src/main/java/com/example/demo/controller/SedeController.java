@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.entity.Sede;
 import com.example.demo.service.ISedeService;
-@CrossOrigin(origins = { "http://localhost:4200"})
+//@CrossOrigin(origins = { "http://localhost:4200"})
 @RestController
 @RequestMapping("/api/sedes")
 public class SedeController {

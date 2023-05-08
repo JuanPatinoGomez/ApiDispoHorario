@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import com.example.demo.entity.Clase;
 
 import com.example.demo.service.IClaseService;
-@CrossOrigin(origins = { "http://localhost:4200"})
+//@CrossOrigin(origins = { "http://localhost:4200"})
 @RestController
 @RequestMapping("/api/clases")
 public class ClaseController {
@@ -182,5 +183,10 @@ public class ClaseController {
 	@GetMapping("/salon/{id}/orderByHoraInicio")
 	public List<Clase> findBySalonOrderByHoraInicio(@PathVariable Long id){
 		return claseService.findBySalonOrderByHoraInicio(id);
+	}
+
+	@GetMapping("/salon/{id}/orderByHoraInicio/completo")
+	public List<Clase> findBySalonOrderByHoraInicioAndAvailable(@PathVariable Long id){
+		return claseService.findBySalonOrderByHoraInicioAndAvailable(id);
 	}
 }

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.entity.Edificio;
 import com.example.demo.service.IEdificioService;
-@CrossOrigin(origins = { "http://localhost:4200"})
+//@CrossOrigin(origins = { "http://localhost:4200"})
 @RestController
 @RequestMapping("/api/edificios")
 public class EdificioController {
