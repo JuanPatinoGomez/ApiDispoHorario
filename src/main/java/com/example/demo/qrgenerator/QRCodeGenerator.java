@@ -3,17 +3,16 @@ package com.example.demo.qrgenerator;
 import com.example.demo.entity.Edificio;
 import com.example.demo.entity.Salon;
 import com.example.demo.entity.Sede;
+import com.example.demo.entity.dto.InformacionQRDTO;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
-import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -31,71 +30,72 @@ public class QRCodeGenerator {
         }
     }
 
-
-    public static void generateQRCodeImage(String url, int width, int height, String filePath) throws WriterException, IOException {
+    public static BitMatrix generateQRCodeImage(String url, int width, int height) throws WriterException, IOException {
 
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
         BitMatrix bitMatrix = qrCodeWriter.encode(url, BarcodeFormat.QR_CODE, width, height);
+        return bitMatrix;
 
-        Path path = FileSystems.getDefault().getPath(filePath);
-        MatrixToImageWriter.writeToPath(bitMatrix, "PNG", path);
     }
 
-    public static void generateQRSalonImage(Long idSalon, int numeroSalon, String nombreEdificio, String sedeMunicipio, int width, int height, String filePath) throws WriterException, IOException {
+    public static BitMatrix generateQRSalonImage(Long idSalon, int width, int height) throws WriterException, IOException {
 
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
         //Codigo qr con la url
         BitMatrix bitMatrix = qrCodeWriter.encode(urlApp + "/clases/salon/" + idSalon, BarcodeFormat.QR_CODE, width, height);
+        return bitMatrix;
 
-        String nombreimagen = sedeMunicipio + "_" + nombreEdificio + "_" + numeroSalon;
-        //Lugar en el que se genera la imagen
-        Path path = FileSystems.getDefault().getPath(filePath + nombreimagen + ".png");
-        MatrixToImageWriter.writeToPath(bitMatrix, "PNG", path);
-        System.out.println("Se genero una imagen en la ruta: \n" + path);
     }
 
-    public static void generateQREdificioImage(HashMap<Long, Integer> salones, String nombreEdificio, String sedeMunicipio, int width, int height, String filePath) throws WriterException, IOException {
+    public static List<InformacionQRDTO> generateQREdificioImage(HashMap<Long, Integer> salones, String nombreEdificio, String sedeMunicipio, int width, int height) throws WriterException, IOException {
+        List<InformacionQRDTO> informacionQRDTOList = new ArrayList<>();
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
 
         for(HashMap.Entry<Long, Integer> entry : salones.entrySet()){
+            InformacionQRDTO informacionQRDTO = new InformacionQRDTO();
             //Codigo qr con la url
             BitMatrix bitMatrix = qrCodeWriter.encode(urlApp + "/clases/salon/" + entry.getKey(), BarcodeFormat.QR_CODE, width, height);
-
             String nombreimagen = sedeMunicipio + "_" + nombreEdificio + "_" + entry.getValue();
-            //Lugar en el que se genera la imagen
-            Path path = FileSystems.getDefault().getPath(filePath + nombreimagen + ".png");
-            MatrixToImageWriter.writeToPath(bitMatrix, "PNG", path);
-            System.out.println("Se genero una imagen en la ruta: \n" + path);
+            informacionQRDTO.setBitMatrix(bitMatrix);
+            informacionQRDTO.setNombreArchivo(nombreimagen);
+            informacionQRDTOList.add(informacionQRDTO);
+
         }
+
+        return informacionQRDTOList;
     }
 
-    public static void generateQRSedeImage(Sede sede, int width, int height, String filePath) throws IOException, WriterException {
+    public static List<InformacionQRDTO> generateQRSedeImage(Sede sede, int width, int height) throws IOException, WriterException {
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
 
-        recorrerEdificios(sede, width, height, filePath, qrCodeWriter);
+        return recorrerEdificios(sede, width, height, qrCodeWriter);
     }
 
-    public static void generateQRAllImage(List<Sede> sedes, int width, int height, String filePath) throws IOException, WriterException{
+    public static List<InformacionQRDTO> generateQRAllImage(List<Sede> sedes, int width, int height) throws IOException, WriterException{
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
+        List<InformacionQRDTO> informacionQRDTOList = new ArrayList<>();
 
         for(Sede sede: sedes){
-            recorrerEdificios(sede, width, height, filePath, qrCodeWriter);
+            informacionQRDTOList.addAll(recorrerEdificios(sede, width, height, qrCodeWriter));
         }
+        return informacionQRDTOList;
     }
 
-    private static void recorrerEdificios(Sede sede, int width, int height, String filePath, QRCodeWriter qrCodeWriter) throws WriterException, IOException {
+    private static List<InformacionQRDTO> recorrerEdificios(Sede sede, int width, int height, QRCodeWriter qrCodeWriter) throws WriterException, IOException {
+        List<InformacionQRDTO> informacionQRDTOList = new ArrayList<>();
         for(Edificio edificio: sede.getEdificios()){
             for(Salon salon : edificio.getSalones()){
+                InformacionQRDTO informacionQRDTO = new InformacionQRDTO();
                 //Codigo qr con la url
                 BitMatrix bitMatrix = qrCodeWriter.encode(urlApp + "/clases/salon/" + salon.getId(), BarcodeFormat.QR_CODE, width, height);
-
                 String nombreimagen = sede.getMunicipio() + "_" + edificio.getNombre() + "_" + salon.getNumero();
-                //Lugar en el que se genera la imagen
-                Path path = FileSystems.getDefault().getPath(filePath + nombreimagen + ".png");
-                MatrixToImageWriter.writeToPath(bitMatrix, "PNG", path);
-                System.out.println("Se genero una imagen en la ruta: \n" + path);
+                informacionQRDTO.setBitMatrix(bitMatrix);
+                informacionQRDTO.setNombreArchivo(nombreimagen);
+                informacionQRDTOList.add(informacionQRDTO);
+
             }
         }
+        return informacionQRDTOList;
     }
 
     static String obtenerIP() throws UnknownHostException {
