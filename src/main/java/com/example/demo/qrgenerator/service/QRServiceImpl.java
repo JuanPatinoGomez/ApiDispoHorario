@@ -24,36 +24,31 @@ public class QRServiceImpl implements IQRService{
     private IEdificioRepository edificioDao;
     @Autowired
     private ISalonRepository salonDao;
+    
     @Override
     public void qrApp(String urlApp) throws WriterException, IOException {
-        QRCodeGenerator.generateQRCodeImage(urlApp, 200, 200, "C:\\Universidad\\Trabajo_grado\\qr\\prueba-generarqr\\qr.png");
-        //QRCodeGenerator.generateQRCodeImage(urlApp + path, 200, 200, "C:\\Universidad\\Trabajo_grado\\qr\\prueba-generarqr\\qr.png");
-        //return QRCodeGenerator.getQRCodeImage(path, 200, 200);
-        //QRCodeGenerator.generateQRCodeImage(urlApp, 200,200, path);
+        QRCodeGenerator.getInstancia().generateQRCodeImage(urlApp, 200, 200, "C:\\Universidad\\Trabajo_grado\\qr\\prueba-generarqr\\qr.png");
     }
 
     @Override
     public void allQrs() throws IOException, WriterException {
         List<Sede> sedes = sedeDao.findAll();
-        QRCodeGenerator.generateQRAllImage(sedes, 200, 200, "C:\\Universidad\\Trabajo_grado\\qr\\prueba-generarqr\\");
+        QRCodeGenerator.getInstancia().generateQRAllImage(sedes, 200, 200, "C:\\Universidad\\Trabajo_grado\\qr\\prueba-generarqr\\");
     }
 
     @Override
     public void sedeQrs(Long idSede) throws IOException, WriterException {
         Sede sede = sedeDao.findById(idSede).orElse(null);
-        QRCodeGenerator.generateQRSedeImage(sede, 200,200, "C:\\Universidad\\Trabajo_grado\\qr\\prueba-generarqr\\");
-
+        QRCodeGenerator.getInstancia().generateQRSedeImage(sede, 200,200, "C:\\Universidad\\Trabajo_grado\\qr\\prueba-generarqr\\");
     }
 
     @Override
     public void edificioQrs(Long idEdificio) throws IOException, WriterException {
         Edificio edificio = edificioDao.findById(idEdificio).orElse(null);
         String sedeMunicipio = edificio.getSede().getMunicipio();
-        //id-numero
         HashMap<Long, Integer> salones = new HashMap<>();
         edificio.getSalones().forEach(salon -> salones.put(salon.getId(), salon.getNumero()));
-
-        QRCodeGenerator.generateQREdificioImage(salones, edificio.getNombre(), sedeMunicipio, 200,200, "C:\\Universidad\\Trabajo_grado\\qr\\prueba-generarqr\\");
+        QRCodeGenerator.getInstancia().generateQREdificioImage(salones, edificio.getNombre(), sedeMunicipio, 200,200, "C:\\Universidad\\Trabajo_grado\\qr\\prueba-generarqr\\");
     }
 
     @Override
@@ -61,8 +56,6 @@ public class QRServiceImpl implements IQRService{
         Salon salon = salonDao.findById(idSalon).orElse(null);
         Edificio edificio = salon.getEdificio();
         String sedeMunicipio = edificio.getSede().getMunicipio();
-
-        QRCodeGenerator.generateQRSalonImage(salon.getId(), salon.getNumero(), edificio.getNombre(), sedeMunicipio, 200,200, "C:\\Universidad\\Trabajo_grado\\qr\\prueba-generarqr\\");
-
+        QRCodeGenerator.getInstancia().generateQRSalonImage(salon.getId(), salon.getNumero(), edificio.getNombre(), sedeMunicipio, 200,200, "C:\\Universidad\\Trabajo_grado\\qr\\prueba-generarqr\\");
     }
 }
