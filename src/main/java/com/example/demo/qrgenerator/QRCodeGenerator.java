@@ -19,9 +19,11 @@ import java.util.List;
 
 public class QRCodeGenerator {
     private static QRCodeGenerator instancia;
+    private final QRCodeWriter qrCodeWriter;
     private String urlApp;
 
     private QRCodeGenerator() {
+        qrCodeWriter = new QRCodeWriter();
         try {
             urlApp = "http://" + obtenerIP() + ":4200/view";
         } catch (UnknownHostException e) {
@@ -41,7 +43,6 @@ public class QRCodeGenerator {
 
 
     public void generateQRCodeImage(String url, int width, int height, String filePath) throws WriterException, IOException {
-        QRCodeWriter qrCodeWriter = new QRCodeWriter();
         BitMatrix bitMatrix = qrCodeWriter.encode(url, BarcodeFormat.QR_CODE, width, height);
         Path path = FileSystems.getDefault().getPath(filePath);
         MatrixToImageWriter.writeToPath(bitMatrix, "PNG", path);
@@ -49,7 +50,6 @@ public class QRCodeGenerator {
 
 
     public void generateQRSalonImage(Long idSalon, int numeroSalon, String nombreEdificio, String sedeMunicipio, int width, int height, String filePath) throws WriterException, IOException {
-        QRCodeWriter qrCodeWriter = new QRCodeWriter();
         BitMatrix bitMatrix = qrCodeWriter.encode(urlApp + "/clases/salon/" + idSalon, BarcodeFormat.QR_CODE, width, height);
         String nombreimagen = sedeMunicipio + "_" + nombreEdificio + "_" + numeroSalon;
         Path path = FileSystems.getDefault().getPath(filePath + nombreimagen + ".png");
@@ -59,7 +59,6 @@ public class QRCodeGenerator {
 
 
     public void generateQREdificioImage(HashMap<Long, Integer> salones, String nombreEdificio, String sedeMunicipio, int width, int height, String filePath) throws WriterException, IOException {
-        QRCodeWriter qrCodeWriter = new QRCodeWriter();
         for(HashMap.Entry<Long, Integer> entry : salones.entrySet()){
             BitMatrix bitMatrix = qrCodeWriter.encode(urlApp + "/clases/salon/" + entry.getKey(), BarcodeFormat.QR_CODE, width, height);
             String nombreimagen = sedeMunicipio + "_" + nombreEdificio + "_" + entry.getValue();
@@ -71,20 +70,18 @@ public class QRCodeGenerator {
 
 
     public void generateQRSedeImage(Sede sede, int width, int height, String filePath) throws IOException, WriterException {
-        QRCodeWriter qrCodeWriter = new QRCodeWriter();
-        recorrerEdificios(sede, width, height, filePath, qrCodeWriter);
+        recorrerEdificios(sede, width, height, filePath);
     }
 
 
     public void generateQRAllImage(List<Sede> sedes, int width, int height, String filePath) throws IOException, WriterException{
-        QRCodeWriter qrCodeWriter = new QRCodeWriter();
         for(Sede sede: sedes){
-            recorrerEdificios(sede, width, height, filePath, qrCodeWriter);
+            recorrerEdificios(sede, width, height, filePath);
         }
     }
 
 
-    private void recorrerEdificios(Sede sede, int width, int height, String filePath, QRCodeWriter qrCodeWriter) throws WriterException, IOException {
+    private void recorrerEdificios(Sede sede, int width, int height, String filePath) throws WriterException, IOException {
         for(Edificio edificio: sede.getEdificios()){
             for(Salon salon : edificio.getSalones()){
                 BitMatrix bitMatrix = qrCodeWriter.encode(urlApp + "/clases/salon/" + salon.getId(), BarcodeFormat.QR_CODE, width, height);
