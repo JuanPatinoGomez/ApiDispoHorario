@@ -35,6 +35,22 @@ public class QRController {
 
     }
 
+    @GetMapping("/app/logo")
+    public ResponseEntity<Map<String, String>> generarCodigoQRAppLogo(){
+        Map<String, String> response = new HashMap<>();
+        try {
+            //qrService.qrApp("/aplicacion");
+            qrService.qrAppLogo("http://localhost:4200/");
+            response.put("mensaje","Se generaron las imagenes con los códigos qr de manera correcta");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (WriterException | IOException e) {
+            //throw new RuntimeException(e);
+            response.put("mensaje","No se pudo generar las imagenes de los códigos qr");
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
     @GetMapping("/salon/{id}")
     public ResponseEntity<Map<String, String>> generarCodigoQRSalon(@PathVariable Long id){
         Map<String, String> response = new HashMap<>();

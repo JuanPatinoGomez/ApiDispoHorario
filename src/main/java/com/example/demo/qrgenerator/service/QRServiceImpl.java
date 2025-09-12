@@ -31,6 +31,11 @@ public class QRServiceImpl implements IQRService{
     }
 
     @Override
+    public void qrAppLogo(String urlApp) throws WriterException, IOException {
+        QRCodeGenerator.getInstancia().generateQRCodeImageWithLogo(urlApp, 200, 200, "C:\\Universidad\\Trabajo_grado\\qr\\prueba-generarqr\\qr.png", "C:\\Universidad\\Trabajo_grado\\logo\\logo.png");
+    }
+
+    @Override
     public void allQrs() throws IOException, WriterException {
         List<Sede> sedes = sedeDao.findAll();
         QRCodeGenerator.getInstancia().generateQRAllImage(sedes, 200, 200, "C:\\Universidad\\Trabajo_grado\\qr\\prueba-generarqr\\");
