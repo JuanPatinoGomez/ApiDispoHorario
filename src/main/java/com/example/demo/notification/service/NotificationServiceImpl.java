@@ -31,11 +31,11 @@ public class NotificationServiceImpl implements INotificationService {
         emailNotifier = factory.createEmailNotifier();
         smsNotifier = factory.createSMSNotifier();
 
-        String mensajeInformal = "Tienes una nueva solicitud para el salón " + salonOcupadoDTO.getNumeroSalon() + " el día " + salonOcupadoDTO.getDia() + " de " + salonOcupadoDTO.getHoraInicio() + " a " + salonOcupadoDTO.getHoraFin() + ". ¡No olvides revisarla!";
+        String mensajeInformal = "Se genero una nueva solicitud para el salón " + salonOcupadoDTO.getNumeroSalon() + " el día " + salonOcupadoDTO.getDia() + " de " + salonOcupadoDTO.getHoraInicio() + " a " + salonOcupadoDTO.getHoraFin() + ". ¡No olvides revisarla!";
         String mensajeInFormalSms = "Revisar la solicitud para el salón " + salonOcupadoDTO.getNumeroSalon() + " mirar el correo para más detalles.";
 
-        emailNotifier.sendEmail("juanillochocolisto@gmail.com", "Revisar solicitud", mensajeInformal);
-        smsNotifier.sendSMS("+573143759212", mensajeInFormalSms);
+        emailNotifier.sendEmail(salonOcupadoDTO.getGmailSolicitante(), "Revisar solicitud", mensajeInformal);
+        smsNotifier.sendSMS("+57" + salonOcupadoDTO.getNumeroSolicitante(), mensajeInFormalSms);
 
         System.out.println("===== Notificación de Ocupación de Salón =====");
         System.out.println("Salón: " + salonOcupadoDTO.getNumeroSalon());

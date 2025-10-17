@@ -7,6 +7,8 @@ public class SalonOcupadoDTO {
     private String dia;
     private LocalTime horaInicio;
     private LocalTime horaFin;
+    private String gmailSolicitante;
+    private String numeroSolicitante;
 
     public String getNumeroSalon() {
         return numeroSalon;
@@ -38,5 +40,21 @@ public class SalonOcupadoDTO {
 
     public void setHoraFin(LocalTime horaFin) {
         this.horaFin = horaFin;
+    }
+
+    public String getGmailSolicitante() {
+        return gmailSolicitante;
+    }
+
+    public void setGmailSolicitante(String gmailSolicitante) {
+        this.gmailSolicitante = gmailSolicitante;
+    }
+
+    public String getNumeroSolicitante() {
+        return numeroSolicitante;
+    }
+
+    public void setNumeroSolicitante(String numeroSolicitante) {
+        this.numeroSolicitante = numeroSolicitante;
     }
 }
