@@ -25,6 +25,6 @@ public class FormalSMSNotifier implements SMSNotifier {
                 new PhoneNumber(to),
                 new PhoneNumber(NotificationConfig.TWILIO_PHONE_NUMBER),
                 formalMessage).create();
-        System.out.println("[Formal SMS] Enviado a " + to);
+        //System.out.println("[Formal SMS] Enviado a " + to);
     }
 }

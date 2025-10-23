@@ -26,6 +26,6 @@ public class InformalSMSNotifier implements SMSNotifier {
                 new PhoneNumber(NotificationConfig.TWILIO_PHONE_NUMBER),
                 informalMessage
         ).create();
-        System.out.println("[Informal SMS] Enviado a " + to);
+        //System.out.println("[Informal SMS] Enviado a " + to);
     }
 }

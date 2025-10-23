@@ -35,7 +35,7 @@ public class InformalEmailNotifier implements EmailNotifier {
             msg.setSubject("[Informal] " + subject);
             msg.setText("¡Hola!\n\n" + message + "\n\nNos vemos!");
             Transport.send(msg);
-            System.out.println("Correo informal enviado a " + to);
+            //System.out.println("Correo informal enviado a " + to);
         } catch (MessagingException e) {
             e.printStackTrace();
         }

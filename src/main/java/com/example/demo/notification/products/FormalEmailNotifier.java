@@ -36,7 +36,7 @@ public class FormalEmailNotifier implements EmailNotifier {
             msg.setSubject("[Formal] " + subject);
             msg.setText("Estimado usuario,\n\n" + message + "\n\nSaludos cordiales.");
             Transport.send(msg);
-            System.out.println("Correo formal enviado a " + to);
+            //System.out.println("Correo formal enviado a " + to);
         } catch (MessagingException e) {
             e.printStackTrace();
         }
