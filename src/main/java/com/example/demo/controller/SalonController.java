@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.entity.Salon;
 import com.example.demo.service.ISalonService;
+import com.example.demo.validation.BusinessValidationException;
 //@CrossOrigin(origins = { "http://localhost:4200"})
 @RestController
 @RequestMapping("/api/salones")
@@ -80,6 +81,9 @@ public class SalonController {
 			response.put("mensaje", "Salon creado de manera exitosa");
 			return new ResponseEntity<>(response, HttpStatus.OK);
 			
+		} catch (BusinessValidationException e) {
+			response.put("errors", e.getErrors().stream().map(err -> err.getMessage()).collect(Collectors.toList()));
+			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		} catch (DataAccessException e) {
 			response.put("Mensaje", "El salon NO ha sido creado de manera exitosa:" + e.getMostSpecificCause());
 			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -124,6 +128,9 @@ public class SalonController {
 			response.put("mensaje", "Salon creado de manera exitosa");
 			return new ResponseEntity<>(response, HttpStatus.OK);
 			
+		} catch (BusinessValidationException e) {
+			response.put("errors", e.getErrors().stream().map(err -> err.getMessage()).collect(Collectors.toList()));
+			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		} catch (DataAccessException e) {
 			response.put("Mensaje", "El salon NO ha sido actualizado de manera exitosa:" + e.getMostSpecificCause());
 			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);

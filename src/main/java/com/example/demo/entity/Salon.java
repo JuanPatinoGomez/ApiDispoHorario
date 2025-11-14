@@ -12,15 +12,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Table(name = "salones")
+@Table(name = "salones", uniqueConstraints = {
+	@UniqueConstraint(name = "uk_salon_edificio_numero", columnNames = {"edificio_id", "numero"})
+})
 @JsonIgnoreProperties(ignoreUnknown = true, value = {"clases"})
 public class Salon {
 
@@ -32,6 +34,12 @@ public class Salon {
 	
 	@Min(value = 0, message = "El campo numero debe ser mayor o igual a 0")
 	private int numero;
+
+	@Min(value = 1, message = "La capacidad debe ser mayor o igual a 1")
+	private int capacidad;
+
+	// Indicador para habilitar/deshabilitar uso del salón (no refleja ocupación por horario)
+	private boolean activo = true;
 	
 	@NotNull(message = "El campo edificio no puede ir vacio")
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
@@ -65,6 +73,22 @@ public class Salon {
 
 	public void setNumero(int numero) {
 		this.numero = numero;
+	}
+
+	public int getCapacidad() {
+		return capacidad;
+	}
+
+	public void setCapacidad(int capacidad) {
+		this.capacidad = capacidad;
+	}
+
+	public boolean isActivo() {
+		return activo;
+	}
+
+	public void setActivo(boolean activo) {
+		this.activo = activo;
 	}
 
 	public Edificio getEdificio() {

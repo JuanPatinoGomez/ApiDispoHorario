@@ -2,19 +2,11 @@ package com.example.demo.entity;
 
 import java.time.LocalTime;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.validation.constraints.Min;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -32,14 +24,18 @@ public class Clase {
 	@Column(name = "nombre_asignatura")
 	private String nombreAsignatura;
 	
-	@NotBlank(message = "El campo dia no puede ir vacio")
-	private String dia;
+	@NotNull(message = "El campo dia no puede ir vacio")
+	@Enumerated(EnumType.STRING)
+	private Dia dia;
 	
 	@Column(name = "hora_inicio")
 	private LocalTime horaInicio;
 	
 	@Column(name = "hora_finalizacion")
 	private LocalTime horaFinalizacion;
+
+	@Min(value = 0, message = "El cupo debe ser mayor o igual a 0")
+	private int cupo;
 	
 	@NotNull(message = "El campo salon no puede ir vacio")
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
@@ -50,7 +46,7 @@ public class Clase {
 	public Clase() {
 	}
 
-	public Clase(Long id, String nombreAsignatura, String dia, LocalTime horaInicio, LocalTime horaFinalizacion, Salon salon) {
+	public Clase(Long id, String nombreAsignatura, Dia dia, LocalTime horaInicio, LocalTime horaFinalizacion, Salon salon) {
 		this.id = id;
 		this.nombreAsignatura = nombreAsignatura;
 		this.dia = dia;
@@ -59,7 +55,7 @@ public class Clase {
 		this.salon = salon;
 	}
 
-	public Clase(String nombreAsignatura, String dia, LocalTime horaInicio, LocalTime horaFinalizacion, Salon salon) {
+	public Clase(String nombreAsignatura, Dia dia, LocalTime horaInicio, LocalTime horaFinalizacion, Salon salon) {
 		this.nombreAsignatura = nombreAsignatura;
 		this.dia = dia;
 		this.horaInicio = horaInicio;
@@ -83,11 +79,11 @@ public class Clase {
 		this.nombreAsignatura = nombreAsignatura;
 	}
 
-	public String getDia() {
+	public Dia getDia() {
 		return dia;
 	}
 
-	public void setDia(String dia) {
+	public void setDia(Dia dia) {
 		this.dia = dia;
 	}
 
@@ -105,6 +101,14 @@ public class Clase {
 
 	public void setHoraFinalizacion(LocalTime horaFinalizacion) {
 		this.horaFinalizacion = horaFinalizacion;
+	}
+
+	 public int getCupo() {
+		return cupo;
+	}
+
+	public void setCupo(int cupo) {
+		this.cupo = cupo;
 	}
 
 	public Salon getSalon() {

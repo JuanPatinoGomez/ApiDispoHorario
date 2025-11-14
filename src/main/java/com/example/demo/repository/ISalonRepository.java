@@ -20,4 +20,9 @@ public interface ISalonRepository extends JpaRepository<Salon, Long>{
 	List<Salon> findByEdificio(Edificio edificio);
 
 	List<Salon> findByEdificioOrderByNumero(Edificio edificio);
+
+	// Validaciones de unicidad por (numero, edificio)
+	boolean existsByNumeroAndEdificioId(int numero, Long edificioId);
+
+	boolean existsByNumeroAndEdificioIdAndIdNot(int numero, Long edificioId, Long id);
 }

@@ -11,6 +11,10 @@ import com.example.demo.repository.IEdificioRepository;
 import com.example.demo.repository.ISalonRepository;
 import com.example.demo.entity.Edificio;
 import com.example.demo.entity.Salon;
+import com.example.demo.validation.BusinessValidationException;
+import com.example.demo.validation.ValidationContext;
+import com.example.demo.validation.core.ValidationHandler;
+import com.example.demo.validation.salon.SalonValidationChainFactory;
 
 @Service
 public class SalonServiceImpl implements ISalonService{
@@ -20,6 +24,9 @@ public class SalonServiceImpl implements ISalonService{
 	
 	@Autowired
 	private IEdificioRepository edificioRepository;
+
+    @Autowired
+    private SalonValidationChainFactory salonValidationChainFactory;
 
 	@Override
 	@Transactional(readOnly = true)
@@ -46,6 +53,14 @@ public class SalonServiceImpl implements ISalonService{
 		Edificio edificio = edificioRepository.findById(salon.getEdificio().getId()).orElse(null);
 		
 		salon.setEdificio(edificio);
+
+        // Ejecutar cadena de validación de negocio para salón
+        ValidationContext ctx = new ValidationContext(false);
+        ValidationHandler<Salon> chain = salonValidationChainFactory.build();
+        chain.handle(salon, ctx);
+        if (ctx.hasErrors()) {
+            throw new BusinessValidationException(ctx.getErrors());
+        }
 
 		return salonRepository.save(salon);
 	}

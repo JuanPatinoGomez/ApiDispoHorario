@@ -16,6 +16,7 @@ import com.example.demo.repository.IClaseRepository;
 import com.example.demo.repository.ISalonRepository;
 import com.example.demo.entity.Clase;
 import com.example.demo.entity.Salon;
+import com.example.demo.entity.Dia;
 
 @Service
 public class ClaseServiceImpl implements IClaseService{
@@ -74,9 +75,10 @@ public class ClaseServiceImpl implements IClaseService{
 	public List<String> horasPorDia(Long idSalon, Long idClase,String dia){
 		List<String> allHoras = Arrays.asList("06:00:00", "07:30:00", "09:00:00", "10:30:00", "12:00:00", "13:30:00", "15:00:00", "16:30:00", "18:00:00", "19:30:00", "21:00:00", "22:30:00");
 		List<Clase> allClasesSalon = claseRepository.findBySalon(salonRepository.findById(idSalon).orElse(null));
-		List<String> horasOcupadas = allClasesSalon.stream().filter(clase -> clase.getDia().equals(dia) && (clase.getId() != idClase || idClase == 0L)).map(dd -> dd.getHoraInicio().toString().concat(":00")).collect(Collectors.toList());
+		Dia diaEnum = Dia.fromJson(dia);
+		List<String> horasOcupadas = allClasesSalon.stream().filter(clase -> clase.getDia() == diaEnum && (clase.getId() != idClase || idClase == 0L)).map(dd -> dd.getHoraInicio().toString().concat(":00")).collect(Collectors.toList());
 		List<String> horasDisponibles = allHoras.stream().filter(alh -> !horasOcupadas.stream().anyMatch(hoo -> hoo.equals(alh))).collect(Collectors.toList());
-		System.out.println("idsalon: " + idSalon + " / dia: " + dia);
+		System.out.println("idsalon: " + idSalon + " / dia: " + diaEnum);
 		System.out.println(horasOcupadas);
 		System.out.println(horasDisponibles);
 		return horasDisponibles;
@@ -90,7 +92,7 @@ public class ClaseServiceImpl implements IClaseService{
 	@Override
 	public List<Clase> findBySalonOrderByHoraInicioAndAvailable(Long idSalon) {
 		List<String> allHoras = Arrays.asList("06:00:00", "07:30:00", "09:00:00", "10:30:00", "12:00:00", "13:30:00", "15:00:00", "16:30:00", "18:00:00", "19:30:00", "21:00:00", "22:30:00", "00:00:00");
-		List<String> semana = Arrays.asList("Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado");
+		List<Dia> semana = Arrays.asList(Dia.LUNES, Dia.MARTES, Dia.MIERCOLES, Dia.JUEVES, Dia.VIERNES, Dia.SABADO);
 		List<Clase> clases = findBySalon(idSalon);
 		List<Clase> clasesVacias =  llenarClasesVacias(allHoras, semana, clases.isEmpty() ? null : clases.get(0).getSalon());
 		System.out.println(clasesVacias);
@@ -98,12 +100,18 @@ public class ClaseServiceImpl implements IClaseService{
 		return llenarClasesFinal(clasesVacias, clases);
 	}
 
-	public List<Clase> llenarClasesVacias(List<String> horas, List<String> semana, Salon salon){
+	public List<Clase> llenarClasesVacias(List<String> horas, List<Dia> semana, Salon salon){
 		List<Clase> clasesVacias = new ArrayList<>();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-		for (String s : semana) {
+		for (Dia d : semana) {
 			for (int j = 0; j < horas.size()-1; j++) {
-				clasesVacias.add(new Clase("Disponible", s, LocalTime.parse(horas.get(j), formatter), LocalTime.parse(horas.get(j + 1), formatter), salon));
+				Clase c = new Clase();
+				c.setNombreAsignatura("Disponible");
+				c.setDia(d);
+				c.setHoraInicio(LocalTime.parse(horas.get(j), formatter));
+				c.setHoraFinalizacion(LocalTime.parse(horas.get(j + 1), formatter));
+				c.setSalon(salon);
+				clasesVacias.add(c);
 			}
 		}
 		return clasesVacias;
@@ -112,8 +120,8 @@ public class ClaseServiceImpl implements IClaseService{
 	public List<Clase> llenarClasesFinal(List<Clase> clasesVacias, List<Clase> clasesDB){
 		List<Clase> clasesListFinal = clasesVacias;
 
-		clasesListFinal.stream().filter(cv -> clasesDB.stream().anyMatch(cdb -> cv.getDia().equals(cdb.getDia()) && cv.getHoraInicio().equals(cdb.getHoraInicio())))
-				.forEach(cv -> clasesDB.stream().filter(cdb -> cv.getDia().equals(cdb.getDia()) && cv.getHoraInicio().equals(cdb.getHoraInicio()))
+		clasesListFinal.stream().filter(cv -> clasesDB.stream().anyMatch(cdb -> cv.getDia() == cdb.getDia() && cv.getHoraInicio().equals(cdb.getHoraInicio())))
+				.forEach(cv -> clasesDB.stream().filter(cdb -> cv.getDia() == cdb.getDia() && cv.getHoraInicio().equals(cdb.getHoraInicio()))
 						.findFirst()
 						.ifPresent(cdb -> cv.setNombreAsignatura(cdb.getNombreAsignatura())));
 
